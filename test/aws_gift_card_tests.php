@@ -92,14 +92,14 @@ print "<hr>";
 $value = 1000;
 // we must be sure we pass FLOAT there
 $aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value);
-print "AWS: buyGiftCard: <pre>" . print_r($aws_test, true) . "</pre><br>";
 $creation_request_id = $aws_test->getCreationRequestId();
 $gift_card_id = $aws_test->getId();
 $claim_code = $aws_test->getClaimCode();
-print "AWS creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . "<br>";
-print "AWS CLAIM CODE: <b>" . $claim_code . "</b><br>";
+print "AWS: buyGiftCard: "
+	. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+	. "CLAIM CODE: <b>" . $claim_code . "</b><br>";
+// print "<pre>" . print_r($aws_test, true) . "</pre><br>";
 print "<hr>";
-
 // cancel card
 $aws_test = Amazon\AmazonIncentives::make()->cancelGiftCard($creation_request_id, $gift_card_id);
 print "AWS: buyGiftCard: <pre>" . print_r($aws_test, true) . "</pre><br>";
@@ -107,29 +107,49 @@ print "<hr>";
  */
 
 // MOCK TEST
-$value = 500;
-$creation_id = 'F0000';
-$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value, $creation_id);
-$creation_request_id = $aws_test->getCreationRequestId();
-$gift_card_id = $aws_test->getId();
-$claim_code = $aws_test->getClaimCode();
-print "AWS: MOCK: " . $creation_id . ": buyGiftCard: <pre>" . print_r($aws_test, true) . "</pre><br>";
-print "AWS creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . "<br>";
-print "AWS CLAIM CODE: <b>" . $claim_code . "</b><br>";
-print "<hr>";
 
-$creation_id = 'F2005';
-try {
-	$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value, $creation_id);
-	$creation_request_id = $aws_test->getCreationRequestId();
-	$gift_card_id = $aws_test->getId();
-	$claim_code = $aws_test->getClaimCode();
-	print "AWS: MOCK: " . $creation_id . ": buyGiftCard: <pre>" . print_r($aws_test, true) . "</pre><br>";
-	print "AWS creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . "<br>";
-	print "AWS CLAIM CODE: <b>" . $claim_code . "</b><br>";
-} catch (Exception $e) {
-	print "AWS: MOCK: " . $creation_id . ": buyGiftCard: FAILURE [" . $e->getCode() . "]: "
-		. "<pre>" . print_r(Amazon\AmazonIncentives::decodeExceptionMessage($e->getMessage()), true) . "</pre><br>";
+$mock_ok = '<span style="color:green;">MOCK OK</span>';
+$mock_failure = '<span style="color:red;">MOCK FAILURE</span>';
+
+$mock['F0000'] = [ 'ret' => '', 'st' => 'SUCCESS'];
+$mock['F2005'] = [ 'ret' => 'F200', 'st' => 'FAILURE'];
+$mock['F2010'] = [ 'ret' => 'F200', 'st' => 'FAILURE'];
+$mock['F4000'] = [ 'ret' => 'F400', 'st' => 'RESEND'];
+$value = 500;
+foreach ($mock as $creation_id => $mock_return) {
+	try {
+		$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value, $creation_id);
+		$creation_request_id = $aws_test->getCreationRequestId();
+		$gift_card_id = $aws_test->getId();
+		$claim_code = $aws_test->getClaimCode();
+		$request_status = $aws_test->getStatus();
+		print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $request_status . ": "
+			. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+			. "CLAIM CODE: <b>" . $claim_code . "</b>: ";
+		if ($mock_return['st'] == $request_status) {
+			print $mock_ok;
+		} else {
+			print $mock_failure;
+		}
+		// print "<pre>" . print_r($aws_test, true) . "</pre>";
+		print "<br>";
+	} catch (Exception $e) {
+		$error = Amazon\AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $error['status']
+			. " [" . $e->getCode() . "]: "
+			. $error['code'] . " | " . $error['type']
+			. " | " . $error['message'] . ": ";
+		if (
+			$mock_return['ret'] == $error['code'] &&
+			$mock_return['st'] == $error['status']
+		) {
+			print $mock_ok;
+		} else {
+			print $mock_failure;
+		}
+		// print "<pre>" . print_r($error['log'][$error['log_id'] ?? ''] ?? [], true) . "</pre>";
+		print "<br>";
+	}
 }
 print "<hr>";
 

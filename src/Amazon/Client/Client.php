@@ -3,6 +3,7 @@
 namespace Amazon\Client;
 
 use Amazon\Exceptions\AmazonErrors;
+use Amazon\Debug\AmazonDebug;
 
 class Client implements ClientInterface
 {
@@ -36,11 +37,15 @@ class Client implements ClientInterface
 
 		if (curl_getinfo($handle, CURLINFO_HTTP_CODE) !== self::HTTP_OK) {
 			$err = curl_errno($handle);
+			AmazonDebug::writeLog(['CURL_REQUEST_RESULT' => $result]);
 			// extract all the error codes from Amazon
-			$error_code = json_decode($result)->errorCode;
-			$error_type = json_decode($result)->errorType;
-			$message = json_decode($result)->message;
+			$result_ar = json_decode($result, true);
+			$error_status = $result_ar['agcodResponse']['status'] ?? 'FAILURE';
+			$error_code = $result_ar['errorCode'] ?? 'E999';
+			$error_type = $result_ar['errorType'] ?? 'OtherUnknownError';
+			$message = $result_ar['message'] ?? 'Unknown error occured';
 			throw AmazonErrors::getError(
+				$error_status,
 				$error_code,
 				$error_type,
 				$message,

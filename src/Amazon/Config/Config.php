@@ -44,12 +44,39 @@ class Config implements ConfigInterface
 		?string $currency,
 		?bool $debug,
 	) {
-		$this->setAccessKey($key ?: $_ENV['AWS_GIFT_CARD_KEY'] ?? '');
-		$this->setSecret($secret ?: $_ENV['AWS_GIFT_CARD_SECRET'] ?? '');
-		$this->setPartner($partner ?: $_ENV['AWS_GIFT_CARD_PARTNER_ID'] ?? '');
-		$this->setEndpoint($endpoint ?: $_ENV['AWS_GIFT_CARD_ENDPOINT'] ?? '');
-		$this->setCurrency($currency ?: $_ENV['AWS_GIFT_CARD_CURRENCY'] ?? '');
-		$this->setDebug($debug ?: (!empty($_ENV['AWS_DEBUG']) ? true : false));
+		$this->setAccessKey($key ?: $this->parseEnv('AWS_GIFT_CARD_KEY'));
+		$this->setSecret($secret ?: $this->parseEnv('AWS_GIFT_CARD_SECRET'));
+		$this->setPartner($partner ?: $this->parseEnv('AWS_GIFT_CARD_PARTNER_ID'));
+		$this->setEndpoint($endpoint ?: $this->parseEnv('AWS_GIFT_CARD_ENDPOINT'));
+		$this->setCurrency($currency ?: $this->parseEnv('AWS_GIFT_CARD_CURRENCY'));
+		$this->setDebug($debug ?: $this->parseEnv('AWS_DEBUG'));
+	}
+
+	/**
+	 * string key to search, returns entry from _ENV
+	 * if not matchin key, returns empty
+	 *
+	 * @param string       $key To search in _ENV array
+	 * @return string|bool      Returns either string or true/false (DEBUG flag)
+	 */
+	private function parseEnv(string $key)
+	{
+		$return = '';
+		switch ($key) {
+			case 'AWS_DEBUG':
+				$return = !empty($_ENV['AWS_DEBUG']) ? true : false;
+				break;
+			case 'AWS_GIFT_CARD_KEY':
+			case 'AWS_GIFT_CARD_SECRET':
+			case 'AWS_GIFT_CARD_PARTNER_ID':
+			case 'AWS_GIFT_CARD_ENDPOINT':
+			case 'AWS_GIFT_CARD_CURRENCY':
+				$return = $_ENV[$key] ?? '';
+				break;
+			default:
+				break;
+		}
+		return $return;
 	}
 
 	/**

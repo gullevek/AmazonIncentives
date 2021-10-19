@@ -58,6 +58,17 @@ interface ConfigInterface
 	 * @return $this
 	 */
 	public function setPartner(string $partner): ConfigInterface;
+
+	/**
+	 * @return bool
+	 */
+	public function getDebug(): bool;
+
+	/**
+	 * @param bool $debug
+	 * @return $this
+	 */
+	public function setDebug(bool $debug): ConfigInterface;
 }
 
 // __END__
