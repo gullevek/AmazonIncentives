@@ -81,21 +81,6 @@ class AmazonIncentives
 	// PUBLIC METHODS
 	// *********************************************************************
 
-	// public function activateGiftCard(): array
-	// {
-	// 	return [];
-	// }
-
-	// public function deactivateGiftCard(string $card_id): array
-	// {
-	// 	return [];
-	// }
-
-	// public function activationStatusCheck(string $card_id): array
-	// {
-	// 	return [];
-	// }
-
 	/**
 	 * @param float $value
 	 * @param string $creation_request_id AWS creationRequestId
@@ -161,8 +146,21 @@ class AmazonIncentives
 	 */
 	public static function decodeExceptionMessage(string $message): array
 	{
-		return json_decode($message, true);
+		$message_ar = json_decode($message, true);
+		// if we have an error, build empty block and only fill message
+		if (json_last_error()) {
+			$message_ar = [
+				'status' => '',
+				'code' => '',
+				'type' => '',
+				'message' => $message,
+				'log_id' => '',
+				'log' => []
+			];
+		}
+		return $message_ar;
 	}
+
 	// *********************************************************************
 	// PUBLIC TEST METHODS
 	// *********************************************************************

@@ -40,10 +40,20 @@ class Client implements ClientInterface
 			AmazonDebug::writeLog(['CURL_REQUEST_RESULT' => $result]);
 			// extract all the error codes from Amazon
 			$result_ar = json_decode($result, true);
-			$error_status = $result_ar['agcodResponse']['status'] ?? 'FAILURE';
-			$error_code = $result_ar['errorCode'] ?? 'E999';
-			$error_type = $result_ar['errorType'] ?? 'OtherUnknownError';
-			$message = $result_ar['message'] ?? 'Unknown error occured';
+			// if message is 'Rate exceeded', set different error
+			if (($result_ar['message'] ?? '') == 'Rate exceeded') {
+				$error_status = 'RESEND';
+				$error_code = 'T001';
+				$error_type = 'RateExceeded';
+				$message = $result_ar['message'];
+			} else {
+				// for all other error messages
+				$error_status = $result_ar['agcodResponse']['status'] ?? 'FAILURE';
+				$error_code = $result_ar['errorCode'] ?? 'E999';
+				$error_type = $result_ar['errorType'] ?? 'OtherUnknownError';
+				$message = $result_ar['message'] ?? 'Unknown error occured';
+			}
+			// throw Error here with all codes
 			throw AmazonErrors::getError(
 				$error_status,
 				$error_code,
@@ -84,7 +94,14 @@ class Client implements ClientInterface
 				$msg = 'Unexpected error communicating with AWS. ' . $message;
 		}
 
-		throw new \RuntimeException($msg);
+		// throw an error like in the normal reqeust, but set to CURL error
+		throw AmazonErrors::getError(
+			'FAILURE',
+			'C001',
+			'CurlError',
+			$message,
+			$errno
+		);
 	}
 }
 

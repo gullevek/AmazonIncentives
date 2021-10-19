@@ -36,6 +36,21 @@ $aws_gc->getStatus();
 // getAmount, getCurrency
 ```
 
+#### Throttle Rates
+
+Note that you can only send 10 requests per second. On a Throttle Excepion you need to wait about 10s to create another request.
+
+Recommended to pool requests. Or check when last requests where sent and then process them.
+
+#### On F400 errors
+
+1) try again
+2) if failed run cancel gift card
+3) if cance ok try create again with different request id
+4) if 2) failed, wait a view seconds and try again
+5) if 10s elapse, we need to wait a full day
+6) if >24h call Amazon
+
 ### cancel gift card
 
 ```php

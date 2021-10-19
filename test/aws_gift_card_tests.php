@@ -61,101 +61,167 @@ AED for UAE
 
 */
 
-// run tests
-// print "checkMe Static: <pre>" . print_r(Amazon\AmazonIncentives::checkMeStatic(), true) . "</pre>";
+// run test to get funds info
+$run_fund_test = false;
+// run the normal get/cancel gift card tests
+$run_gift_tests = true;
+// run mock error check tests
+$run_mocks = false;
+
+// should we print debug info
+$debug_print = false;
+// how long to wait between each call
+$debug_wait = 2;
+// if set to true will print all the debug logs too
+$mock_debug = false;
+// wait in seconds between mock tests
+$mock_wait = 2;
 
 $aws = new Amazon\AmazonIncentives();
 // $aws->createGiftCard(100);
 print "checkMe: <pre>" . print_r($aws->checkMe(), true) . "</pre>";
 print "<hr>";
 
+
 // we should open log file to collect all creationRequestId/gcId
 // so we can test and cancel
 
 // check balance
-try {
-	$aws_test = Amazon\AmazonIncentives::make()->getAvailableFunds();
-	print "AWS: getAvailableFunds: <pre>" . print_r($aws_test, true) . "</pre><br>";
-} catch (Exception $e) {
-	print "AWS: getAvailableFunds FAILURE [" . $e->getCode() . "]: "
-		. "<pre>" . print_r(Amazon\AmazonIncentives::decodeExceptionMessage($e->getMessage()), true) . "</pre><br>";
-	exit;
-};
-// print "LOG: <pre>" . print_r($aws_test->getLog(), true) . "</pre><br>";
-print "<hr>";
-
-// skip early for testing
-// exit;
-
-/*
-// create card
-$value = 1000;
-// we must be sure we pass FLOAT there
-$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value);
-$creation_request_id = $aws_test->getCreationRequestId();
-$gift_card_id = $aws_test->getId();
-$claim_code = $aws_test->getClaimCode();
-print "AWS: buyGiftCard: "
-	. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
-	. "CLAIM CODE: <b>" . $claim_code . "</b><br>";
-// print "<pre>" . print_r($aws_test, true) . "</pre><br>";
-print "<hr>";
-// cancel card
-$aws_test = Amazon\AmazonIncentives::make()->cancelGiftCard($creation_request_id, $gift_card_id);
-print "AWS: buyGiftCard: <pre>" . print_r($aws_test, true) . "</pre><br>";
-print "<hr>";
- */
-
-// MOCK TEST
-
-$mock_ok = '<span style="color:green;">MOCK OK</span>';
-$mock_failure = '<span style="color:red;">MOCK FAILURE</span>';
-
-$mock['F0000'] = [ 'ret' => '', 'st' => 'SUCCESS'];
-$mock['F2005'] = [ 'ret' => 'F200', 'st' => 'FAILURE'];
-$mock['F2010'] = [ 'ret' => 'F200', 'st' => 'FAILURE'];
-$mock['F4000'] = [ 'ret' => 'F400', 'st' => 'RESEND'];
-$value = 500;
-foreach ($mock as $creation_id => $mock_return) {
+if ($run_fund_test === true) {
 	try {
-		$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value, $creation_id);
-		$creation_request_id = $aws_test->getCreationRequestId();
-		$gift_card_id = $aws_test->getId();
-		$claim_code = $aws_test->getClaimCode();
-		$request_status = $aws_test->getStatus();
-		print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $request_status . ": "
-			. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
-			. "CLAIM CODE: <b>" . $claim_code . "</b>: ";
-		if ($mock_return['st'] == $request_status) {
-			print $mock_ok;
-		} else {
-			print $mock_failure;
-		}
-		// print "<pre>" . print_r($aws_test, true) . "</pre>";
-		print "<br>";
+		$aws_test = Amazon\AmazonIncentives::make()->getAvailableFunds();
+		print "AWS: getAvailableFunds: <pre>" . print_r($aws_test, true) . "</pre><br>";
 	} catch (Exception $e) {
-		$error = Amazon\AmazonIncentives::decodeExceptionMessage($e->getMessage());
-		print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $error['status']
+		print "AWS: getAvailableFunds: " . $error['status']
 			. " [" . $e->getCode() . "]: "
 			. $error['code'] . " | " . $error['type']
 			. " | " . $error['message'] . ": ";
-		if (
-			$mock_return['ret'] == $error['code'] &&
-			$mock_return['st'] == $error['status']
-		) {
-			print $mock_ok;
-		} else {
-			print $mock_failure;
+		if ($debug_print === true) {
+			print "/<pre>" . print_r($error['log'][$error['log_id'] ?? ''] ?? [], true) . "</pre>";
 		}
-		// print "<pre>" . print_r($error['log'][$error['log_id'] ?? ''] ?? [], true) . "</pre>";
-		print "<br>";
-	}
+	};
+	sleep($debug_wait);
+	// print "LOG: <pre>" . print_r($aws_test->getLog(), true) . "</pre><br>";
+	print "<hr>";
 }
-print "<hr>";
 
-// ... should do all possible important mock tests
+if ($run_gift_tests === true) {
+	// create card
+	$value = 1000;
+	// we must be sure we pass FLOAT there
+	$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value);
+	$creation_request_id = $aws_test->getCreationRequestId();
+	$gift_card_id = $aws_test->getId();
+	$claim_code = $aws_test->getClaimCode();
+	$request_status = $aws_test->getStatus();
+	print "AWS: buyGiftCard: " . $request_status . ": "
+		. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+		. "CLAIM CODE: <b>" . $claim_code . "</b><br>";
+	if ($debug_print === true) {
+		print "<pre>" . print_r($aws_test, true) . "</pre><br>";
+	}
+	sleep($debug_wait);
+	print "<hr>";
+	// cancel above created card card
+	$aws_test = Amazon\AmazonIncentives::make()->cancelGiftCard($creation_request_id, $gift_card_id);
+	$request_status = $aws_test->getStatus();
+	print "AWS: cancelGiftCard: " . $request_status . ": "
+		. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id
+		. "<br>";
+	if ($debug_print === true) {
+		print "<pre>" . print_r($aws_test, true) . "</pre><br>";
+	}
+	print "<hr>";
+	sleep($debug_wait);
 
-// failed card (invalid data)
-// double card
+	// set same request ID twice to get same response test
+	$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value);
+	$creation_request_id = $aws_test->getCreationRequestId();
+	$gift_card_id = $aws_test->getId();
+	$claim_code = $aws_test->getClaimCode();
+	$request_status = $aws_test->getStatus();
+	print "AWS: buyGiftCard: CODE A: " . $request_status . ": "
+		. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+		. "CLAIM CODE: <b>" . $claim_code . "</b><br>";
+	if ($debug_print === true) {
+		print "<pre>" . print_r($aws_test, true) . "</pre><br>";
+	}
+	sleep($debug_wait);
+	$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value, $creation_request_id);
+	$request_status = $aws_test->getStatus();
+	print "AWS: buyGiftCard: SAME CODE A AGAIN: " . $request_status . ": "
+		. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+		. "CLAIM CODE: <b>" . $claim_code . "</b><br>";
+	if ($debug_print === true) {
+		print "<pre>" . print_r($aws_test, true) . "</pre><br>";
+	}
+	print "<hr>";
+	sleep($debug_wait);
+}
+
+// MOCK TEST
+if ($mock_debug === true) {
+	$mock_ok = '<span style="color:green;">MOCK OK</span>';
+	$mock_failure = '<span style="color:red;">MOCK FAILURE</span>';
+	$mock_value = 500;
+
+	$mock['F0000'] = [ 'ret' => '', 'st' => 'SUCCESS']; // success mock
+	$mock['F2003'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // InvalidAmountInput
+	$mock['F2004'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // InvalidAmountValue
+	$mock['F2005'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // InvalidCurrencyCodeInput
+	$mock['F2010'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // CardActivatedWithDifferentRequestId
+	$mock['F2015'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // MaxAmountExceeded
+	$mock['F2016'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // CurrencyCodeMismatch
+	$mock['F2017'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // FractionalAmountNotAllowed
+	$mock['F2047'] = [ 'ret' => 'F200', 'st' => 'FAILURE']; // CancelRequestArrivedAfterTimeLimit
+	$mock['F3003'] = [ 'ret' => 'F300', 'st' => 'FAILURE']; // InsufficientFunds
+	$mock['F3005'] = [ 'ret' => 'F300', 'st' => 'FAILURE']; // AccountHasProblems
+	$mock['F3010'] = [ 'ret' => 'F300', 'st' => 'FAILURE']; // CustomerSurpassedDailyVelocityLimit
+	$mock['F4000'] = [ 'ret' => 'F400', 'st' => 'RESEND']; // SystemTemporarilyUnavailable
+	$mock['F5000'] = [ 'ret' => 'F500', 'st' => 'FAILURE']; // UnknownError
+
+	foreach ($mock as $creation_id => $mock_return) {
+		try {
+			$aws_test = Amazon\AmazonIncentives::make()->buyGiftCard((float)$mock_value, $creation_id);
+			$creation_request_id = $aws_test->getCreationRequestId();
+			$gift_card_id = $aws_test->getId();
+			$claim_code = $aws_test->getClaimCode();
+			$request_status = $aws_test->getStatus();
+			print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $request_status . ": "
+				. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+				. "CLAIM CODE: <b>" . $claim_code . "</b>: ";
+			if ($mock_return['st'] == $request_status) {
+				print $mock_ok;
+			} else {
+				print $mock_failure;
+			}
+			if ($mock_debug === true) {
+				print "<pre>" . print_r($aws_test, true) . "</pre>";
+			}
+			print "<br>";
+		} catch (Exception $e) {
+			$error = Amazon\AmazonIncentives::decodeExceptionMessage($e->getMessage());
+			print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $error['status']
+				. " [" . $e->getCode() . "]: "
+				. $error['code'] . " | " . $error['type']
+				. " | " . $error['message'] . ": ";
+			if (
+				$mock_return['ret'] == $error['code'] &&
+				$mock_return['st'] == $error['status']
+			) {
+				print $mock_ok;
+			} else {
+				print $mock_failure;
+			}
+			if ($mock_debug === true) {
+				print "/<pre>" . print_r($error['log'][$error['log_id'] ?? ''] ?? [], true) . "</pre>";
+			}
+			print "<br>";
+		}
+		// Waiting a moment, so we don't flood
+		sleep($mock_wait);
+	}
+	print "<hr>";
+}
 
 // __END__
