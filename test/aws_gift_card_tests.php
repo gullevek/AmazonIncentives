@@ -102,13 +102,14 @@ Far East		https://agcod-v2-fe-gamma.amazon.com	us-west-2
 
 CURRENCY
 USD for US
-EUR for EU
+EUR for EU (IT, ES, DE, FR, PL, NL, SE)
 JPY for JP
 CAD for CA
 AUD for AU
 TRY for TR
 AED for UAE
-
+MXN for MX
+GBP for UK
 */
 
 $fp = fopen('log/debug.' . date('YmdHis') . '.log', 'w');

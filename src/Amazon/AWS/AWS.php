@@ -266,6 +266,30 @@ class AWS
 	}
 
 	/**
+	 * get the region based on endpoint
+	 * list as of 2021/10/20
+	 * WHERE			URL										REGION
+	 * North America	https://agcod-v2-gamma.amazon.com		us-east-1
+	 * 					https://agcod-v2.amazon.com
+	 * (US, CA, MX)
+	 * Europe and Asia	https://agcod-v2-eu-gamma.amazon.com	eu-west-1
+	 * 					https://agcod-v2-eu.amazon.com
+	 * (IT, ES, DE, FR, UK, TR, UAE, KSA, PL, NL, SE)
+	 * Far East			https://agcod-v2-fe-gamma.amazon.com	us-west-2
+	 * 					https://agcod-v2-fe.amazon.com
+	 * (JP, AU, SG)
+	 *
+	 * CURRENCY
+	 * USD for US
+	 * EUR for EU (IT, ES, DE, FR, PL, NL, SE)
+	 * JPY for JP
+	 * CAD for CA
+	 * AUD for AU
+	 * TRY for TR
+	 * AED for UAE
+	 * MXN for MX
+	 * GBP for UK
+	 *
 	 * @return string
 	 */
 	public function getRegion(): string
