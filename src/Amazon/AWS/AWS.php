@@ -34,8 +34,6 @@ class AWS
 	public function __construct(Config $config)
 	{
 		$this->config = $config;
-		AmazonDebug::setFlag($config->getDebug());
-		AmazonDebug::setId();
 		AmazonDebug::writeLog([__METHOD__ => date('Y-m-d H:m:s.u')]);
 	}
 
@@ -154,7 +152,7 @@ class AWS
 			'Service' => $k_service_hexis,
 		]]);
 
-		$url = 'https://' . $endpoint . '/' . $service_operation;
+		$url = 'https://' . (string)$endpoint . '/' . $service_operation;
 		$headers = $this->buildHeaders($payload, $authorization_value, $date_time_string, $service_target);
 		return (new Client())->request($url, $headers, $payload);
 	}

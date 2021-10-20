@@ -80,9 +80,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getEndpoint(): string
+	public function getEndpoint(): ?string
 	{
 		return $this->endpoint;
 	}
@@ -100,9 +100,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getAccessKey(): string
+	public function getAccessKey(): ?string
 	{
 		return $this->access_key;
 	}
@@ -119,9 +119,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getSecret(): string
+	public function getSecret(): ?string
 	{
 		return $this->secret_key;
 	}
@@ -138,9 +138,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getCurrency(): string
+	public function getCurrency(): ?string
 	{
 		return $this->currency;
 	}
@@ -158,9 +158,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getPartner(): string
+	public function getPartner(): ?string
 	{
 		return $this->partner_id;
 	}
@@ -177,9 +177,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function getDebug(): bool
+	public function getDebug(): ?bool
 	{
 		return $this->debug;
 	}

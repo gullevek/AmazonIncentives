@@ -5,9 +5,9 @@ namespace Amazon\Config;
 interface ConfigInterface
 {
 	/**
-	 * @return String
+	 * @return string|null
 	 */
-	public function getEndpoint(): string;
+	public function getEndpoint(): ?string;
 
 	/**
 	 * @param string $endpoint
@@ -16,9 +16,9 @@ interface ConfigInterface
 	public function setEndpoint(string $endpoint): ConfigInterface;
 
 	/**
-	 * @return String
+	 * @return string|null
 	 */
-	public function getAccessKey(): string;
+	public function getAccessKey(): ?string;
 
 	/**
 	 * @param string $key
@@ -27,9 +27,9 @@ interface ConfigInterface
 	public function setAccessKey(string $key): ConfigInterface;
 
 	/**
-	 * @return String
+	 * @return string|null
 	 */
-	public function getSecret(): string;
+	public function getSecret(): ?string;
 
 	/**
 	 * @param string $secret
@@ -38,9 +38,9 @@ interface ConfigInterface
 	public function setSecret(string $secret): ConfigInterface;
 
 	/**
-	 * @return String
+	 * @return string|null
 	 */
-	public function getCurrency(): string;
+	public function getCurrency(): ?string;
 
 	/**
 	 * @param string $currency
@@ -49,9 +49,9 @@ interface ConfigInterface
 	public function setCurrency(string $currency): ConfigInterface;
 
 	/**
-	 * @return String
+	 * @return string|null
 	 */
-	public function getPartner(): string;
+	public function getPartner(): ?string;
 
 	/**
 	 * @param string $partner
@@ -60,9 +60,9 @@ interface ConfigInterface
 	public function setPartner(string $partner): ConfigInterface;
 
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function getDebug(): bool;
+	public function getDebug(): ?bool;
 
 	/**
 	 * @param bool $debug

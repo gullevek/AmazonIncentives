@@ -39,6 +39,7 @@ namespace Amazon;
 use Amazon\AWS\AWS;
 use Amazon\Config\Config;
 use Amazon\Exceptions\AmazonErrors;
+use Amazon\Debug\AmazonDebug;
 
 class AmazonIncentives
 {
@@ -65,6 +66,8 @@ class AmazonIncentives
 		// load AWS settings
 		// fail here if settings missing
 		$this->config = new Config($key, $secret, $partner, $endpoint, $currency, $debug);
+		// init debug
+		AmazonDebug::setDebug($this->config->getDebug());
 	}
 
 	// *********************************************************************

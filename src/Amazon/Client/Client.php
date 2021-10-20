@@ -79,19 +79,19 @@ class Client implements ClientInterface
 			case CURLE_COULDNT_CONNECT:
 			case CURLE_COULDNT_RESOLVE_HOST:
 			case CURLE_OPERATION_TIMEOUTED:
-				$msg = 'Could not connect to AWS (' . $url . ').  Please check your '
-					. 'internet connection and try again.';
+				$message = 'Could not connect to AWS (' . $url . ').  Please check your '
+					. 'internet connection and try again. [' . $message . ']';
 				break;
 			case CURLE_SSL_CACERT:
 			case CURLE_SSL_PEER_CERTIFICATE:
-				$msg = 'Could not verify AWS SSL certificate.  Please make sure '
+				$message = 'Could not verify AWS SSL certificate.  Please make sure '
 					. 'that your network is not intercepting certificates.  '
 					. '(Try going to ' . $url . 'in your browser.)  '
-					. 'If this problem persists,';
+					. '[' . $message . ']';
 				break;
 			case 0:
 			default:
-				$msg = 'Unexpected error communicating with AWS. ' . $message;
+				$message = 'Unexpected error communicating with AWS: ' . $message;
 		}
 
 		// throw an error like in the normal reqeust, but set to CURL error
