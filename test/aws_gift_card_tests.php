@@ -76,21 +76,6 @@ print "<h1>Amazon Gift Card Incentives</h1><br>";
 // optional
 // debug: AWS_DEBUG (if not set: off)
 
-// as in .env
-// AWS_GIFT_CARD_ENDPOINT.TEST
-// AWS_GIFT_CARD_ENDPOINT.LIVE
-
-define('LOCATION', 'test');
-foreach (
-	[
-		'AWS_GIFT_CARD_KEY', 'AWS_GIFT_CARD_SECRET', 'AWS_GIFT_CARD_PARTNER_ID',
-		'AWS_GIFT_CARD_ENDPOINT', 'AWS_GIFT_CARD_CURRENCY', 'AWS_DEBUG'
-	] as $key
-) {
-	//
-	$_ENV[$key] = $_ENV[$key . '.' . strtoupper((LOCATION))] ?? $_ENV[$key] ?? '';
-}
-
 // open debug file output
 $fp = fopen('log/debug.' . date('YmdHis') . '.log', 'w');
 if (!is_resource($fp)) {
