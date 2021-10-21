@@ -1,8 +1,9 @@
 <?php
 
-namespace Amazon\Exceptions;
+namespace gullevek\AmazonIncentives\Exceptions;
 
 use RuntimeException;
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class AmazonErrors extends RuntimeException
 {
@@ -29,8 +30,8 @@ class AmazonErrors extends RuntimeException
 				'type' => $error_type,
 				'message' => $message,
 				// atach log data if exists
-				'log_id' => \Amazon\Debug\AmazonDebug::getId(),
-				'log' => \Amazon\Debug\AmazonDebug::getLog(),
+				'log_id' => AmazonDebug::getId(),
+				'log' => AmazonDebug::getLog(),
 			]),
 			$_error_code
 		);

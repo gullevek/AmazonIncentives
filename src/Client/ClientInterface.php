@@ -1,6 +1,6 @@
 <?php
 
-namespace Amazon\Client;
+namespace gullevek\AmazonIncentives\Client;
 
 interface ClientInterface
 {

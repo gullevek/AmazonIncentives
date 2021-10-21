@@ -3,7 +3,7 @@
 // simple write all into an array that we can poll in the return group
 // to activate AmazonDebug::setDebug(true) must be called once
 
-namespace Amazon\Debug;
+namespace gullevek\AmazonIncentives\Debug;
 
 class AmazonDebug
 {
@@ -32,7 +32,7 @@ class AmazonDebug
 
 	/**
 	 * set the debug flag.
-	 * This is automatically run in Amazon\AmazonIncentives::__construct
+	 * This is automatically run in gullevek\AmazonIncentives\AmazonIncentives::__construct
 	 * No need to run manuall
 	 *
 	 * @param  boolean     $debug Can only be True or False

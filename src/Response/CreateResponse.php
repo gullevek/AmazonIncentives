@@ -1,6 +1,8 @@
 <?php
 
-namespace Amazon\Response;
+namespace gullevek\AmazonIncentives\Response;
+
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateResponse
 {
@@ -74,7 +76,7 @@ class CreateResponse
 	public function __construct(array $json_response)
 	{
 		$this->raw_json = $json_response;
-		$this->log = \Amazon\Debug\AmazonDebug::getLog(\Amazon\Debug\AmazonDebug::getId());
+		$this->log = AmazonDebug::getLog(AmazonDebug::getId());
 		$this->parseJsonResponse($json_response);
 	}
 

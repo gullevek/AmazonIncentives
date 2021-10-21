@@ -1,9 +1,9 @@
 <?php
 
-namespace Amazon\Client;
+namespace gullevek\AmazonIncentives\Client;
 
-use Amazon\Exceptions\AmazonErrors;
-use Amazon\Debug\AmazonDebug;
+use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class Client implements ClientInterface
 {

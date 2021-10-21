@@ -1,6 +1,6 @@
 <?php
 
-namespace Amazon\Config;
+namespace gullevek\AmazonIncentives\Config;
 
 interface ConfigInterface
 {

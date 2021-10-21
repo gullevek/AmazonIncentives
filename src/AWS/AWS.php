@@ -1,14 +1,14 @@
 <?php
 
-namespace Amazon\AWS;
+namespace gullevek\AmazonIncentives\AWS;
 
-use Amazon\Client\Client;
-use Amazon\Config\Config;
-use Amazon\Exceptions\AmazonErrors;
-use Amazon\Debug\AmazonDebug;
-use Amazon\Response\CancelResponse;
-use Amazon\Response\CreateBalanceResponse;
-use Amazon\Response\CreateResponse;
+use gullevek\AmazonIncentives\Client\Client;
+use gullevek\AmazonIncentives\Config\Config;
+use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
+use gullevek\AmazonIncentives\Response\CancelResponse;
+use gullevek\AmazonIncentives\Response\CreateBalanceResponse;
+use gullevek\AmazonIncentives\Response\CreateResponse;
 
 class AWS
 {

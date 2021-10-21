@@ -1,0 +1,21 @@
+{
+    "name": "gullevek/amazon-incentives",
+    "description": "Amazon Gift on Demand Incentives",
+    "type": "library",
+    "license": "help",
+    "autoload": {
+        "psr-4": {
+            "gullevek\\AmazonIncentives\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Clemens Schwaighofer",
+            "email": "gullevek@gullevek.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+		"php": ">=7.4.0"
+	}
+}

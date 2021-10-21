@@ -34,12 +34,12 @@
  * error handler/retry
  */
 
-namespace Amazon;
+namespace gullevek\AmazonIncentives;
 
-use Amazon\AWS\AWS;
-use Amazon\Config\Config;
-use Amazon\Exceptions\AmazonErrors;
-use Amazon\Debug\AmazonDebug;
+use gullevek\AmazonIncentives\AWS\AWS;
+use gullevek\AmazonIncentives\Config\Config;
+use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class AmazonIncentives
 {

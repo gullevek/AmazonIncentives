@@ -1,27 +1,35 @@
 <?php
 
-namespace Amazon\Response;
+namespace gullevek\AmazonIncentives\Response;
 
-class CancelResponse
+use gullevek\AmazonIncentives\Debug\AmazonDebug;
+
+class CreateBalanceResponse
 {
 	/**
-	 * Amazon Gift Card gcId.
+	 * Amazon Gift Card Balance Amount
 	 *
 	 * @var string
 	 */
-	protected $id;
+	protected $amount;
 	/**
-	 * Amazon Gift Card creationRequestId
+	 * Amazon Gift Card Balance Currency
 	 *
 	 * @var string
 	 */
-	protected $creation_request_id;
+	protected $currency;
 	/**
-	 * Amazon Gift Card status
+	 * Amazon Gift Card Balance Status
 	 *
 	 * @var string
 	 */
 	protected $status;
+	/**
+	 * Amazon Gift Card Balance Timestamp
+	 *
+	 * @var string
+	 */
+	protected $timestamp;
 	/**
 	 * Amazon Gift Card Raw JSON
 	 *
@@ -35,12 +43,13 @@ class CancelResponse
 
 	/**
 	 * Response constructor.
+	 *
 	 * @param array $json_response
 	 */
 	public function __construct(array $json_response)
 	{
 		$this->raw_json = $json_response;
-		$this->log = \Amazon\Debug\AmazonDebug::getLog(\Amazon\Debug\AmazonDebug::getId());
+		$this->log = AmazonDebug::getLog(AmazonDebug::getId());
 		$this->parseJsonResponse($json_response);
 	}
 
@@ -55,17 +64,17 @@ class CancelResponse
 	/**
 	 * @return string
 	 */
-	public function getId(): string
+	public function getAmount(): string
 	{
-		return $this->id;
+		return $this->amount;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCreationRequestId(): string
+	public function getCurrency(): string
 	{
-		return $this->creation_request_id;
+		return $this->currency;
 	}
 
 	/**
@@ -79,33 +88,44 @@ class CancelResponse
 	/**
 	 * @return string
 	 */
+	public function getTimestamp(): string
+	{
+		return $this->timestamp;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getRawJson(): string
 	{
 		return json_encode($this->raw_json);
 	}
 
 	/**
-	 * @param  array $json_response
-	 * @return CancelResponse
+	 * Undocumented function
+	 *
+	 * @param array $json_response
+	 * @return CreateBalanceResponse
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{
 		if (!is_array($json_response)) {
 			throw new \RuntimeException('Response must be a scalar value');
 		}
-		if (array_key_exists('gcId', $json_response)) {
-			$this->id = $json_response['gcId'];
+		if (array_key_exists('amount', $json_response['availableFunds'])) {
+			$this->amount = $json_response['availableFunds']['amount'];
 		}
-		if (array_key_exists('creationRequestId', $json_response)) {
-			$this->creation_request_id = $json_response['creationRequestId'];
+		if (array_key_exists('currencyCode', $json_response['availableFunds'])) {
+			$this->currency = $json_response['availableFunds']['currencyCode'];
 		}
 		// SUCCESS, FAILURE, RESEND
 		if (array_key_exists('status', $json_response)) {
 			$this->status = $json_response['status'];
 		}
+		if (array_key_exists('timestamp', $json_response)) {
+			$this->timestamp = $json_response['timestamp'];
+		}
 
 		return $this;
 	}
 }
-
-// __END__

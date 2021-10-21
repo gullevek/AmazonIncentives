@@ -4,6 +4,8 @@ This is a abastract from (https://github.com/kamerk22/AmazonGiftCode) to be not 
 
 Uses .env file to load configuration data
 
+`composer request gullevek/amazon-incentives`
+
 ## _ENV variables needed
 
 * AWS_GIFT_CARD_KEY
@@ -15,14 +17,15 @@ Uses .env file to load configuration data
 
 ## How to use
 
-The class must be loaded with an autoloader (see test/autoloader.php for example).
-
 The above _ENV variables must be set (Except AWS_DEBUG, defaults to off).
 
 ### create gift card
 
 ```php
-$aws_gc = Amazon\AmazonIncentives::make()->buyGiftCard((float)$value);
+use gullevek\AmazonIncentives\AmazonIncentives;
+// buy a gift card with a value
+$value = 500;
+$aws_gc = AmazonIncentives::make()->buyGiftCard((float)$value);
 // the two below are need if we want to cancel the card
 // get gift card id (gcID)
 $aws_gc->getId();
@@ -55,14 +58,14 @@ Recommended to pool requests. Or check when last requests where sent and then pr
 
 ```php
 // use getCreationRequestId() and getId() from request
-$aws_gc = Amazon\AmazonIncentives::make()->cancelGiftCard($creation_request_id, $gift_card_id);
+$aws_gc = gullevek\AmazonIncentives\AmazonIncentives::make()->cancelGiftCard($creation_request_id, $gift_card_id);
 // return is as above
 ```
 
 ### check balance
 
 ```php
-$aws_gc = Amazon\AmazonIncentives::make()->getAvailableFunds();
+$aws_gc = gullevek\AmazonIncentives\AmazonIncentives::make()->getAvailableFunds();
 ```
 
 ## Exceptions
@@ -91,11 +94,10 @@ In this case the request has to be resend after a certain waiting period.
 
 If AWS_DEBUG is set to 1 and internal array will be written with debug info.
 
-The Amazon\Debug\AmazonDebug class handles all this.
+The gulleek\AmazonIncentives\Debug\AmazonDebug class handles all this.
 
-In the Amazon\AWS\AWS main class the debugger gets set
-* setFlag that turns debugger on/off
-* setId (to set unique id for each run)
+In the gulleek\AmazonIncentives\AmazonIncentives main class the debugger gets set
+* setDebug that turns debugger on/off and if on sets unique id (getId to check)
 
 New entries can be written with
 
