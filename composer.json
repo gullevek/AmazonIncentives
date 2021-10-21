@@ -3,7 +3,7 @@
     "description": "Amazon Gift Codes, Gift on Demand, Incentives",
     "keywords": ["AmazonGiftCode", "Amazon", "GiftCard", "AGCOD", "Incentives API", "Amazon Incentives API"],
     "type": "library",
-    "license": "help",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "gullevek\\AmazonIncentives\\": "src/"
