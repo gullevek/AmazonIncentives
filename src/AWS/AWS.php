@@ -26,6 +26,9 @@ class AWS
 	public const CANCEL_GIFT_CARD_SERVICE = 'CancelGiftCard';
 	public const GET_AVAILABLE_FUNDS_SERVICE = 'GetAvailableFunds';
 
+	/**
+	 * @var Config
+	 */
 	private $config;
 
 	/**
@@ -162,7 +165,7 @@ class AWS
 	 * @param string $authorization_value
 	 * @param string $date_time_string
 	 * @param string $service_target
-	 * @return array
+	 * @return array<mixed>
 	 */
 	public function buildHeaders(
 		string $payload,
@@ -323,7 +326,6 @@ class AWS
 	 */
 	public function getGiftCardPayload(float $amount, ?string $creation_id = null): string
 	{
-		$amount = trim($amount);
 		$payload = [
 			'creationRequestId' => $creation_id ?: uniqid($this->config->getPartner() . '_'),
 			'partnerId' => $this->config->getPartner(),
@@ -333,7 +335,7 @@ class AWS
 					'amount' => (float)$amount
 				]
 		];
-		return json_encode($payload);
+		return (json_encode($payload)) ?: '';
 	}
 
 	/**
@@ -343,13 +345,12 @@ class AWS
 	 */
 	public function getCancelGiftCardPayload(string $creation_request_id, string $gift_card_id): string
 	{
-		$gift_card_response_id = trim($gift_card_id);
 		$payload = [
 			'creationRequestId' => $creation_request_id,
 			'partnerId' => $this->config->getPartner(),
-			'gcId' => $gift_card_response_id
+			'gcId' => $gift_card_id
 		];
-		return json_encode($payload);
+		return (json_encode($payload)) ?: '';
 	}
 
 	/**
@@ -360,7 +361,7 @@ class AWS
 		$payload = [
 			'partnerId' => $this->config->getPartner(),
 		];
-		return json_encode($payload);
+		return (json_encode($payload)) ?: '';
 	}
 
 	/**
@@ -394,7 +395,7 @@ class AWS
 	}
 
 	/**
-	 * @return false|string
+	 * @return string
 	 */
 	public function getTimestamp()
 	{
@@ -413,7 +414,7 @@ class AWS
 	}
 
 	/**
-	 * @return bool|string
+	 * @return string
 	 */
 	public function getDateString()
 	{

@@ -7,8 +7,17 @@ namespace gullevek\AmazonIncentives\Debug;
 
 class AmazonDebug
 {
+	/**
+	 * @var array<mixed>
+	 */
 	private static $log = [];
+	/**
+	 * @var bool
+	 */
 	private static $debug = false;
+	/**
+	 * @var string|null;
+	 */
 	private static $id = null;
 
 	/**
@@ -74,7 +83,7 @@ class AmazonDebug
 	 * Will be pushed as new array entry int log
 	 * Main key is the set Id for this run
 	 *
-	 * @param  array $data Any array data to store in the log
+	 * @param  array<mixed> $data Any array data to store in the log
 	 * @return void
 	 */
 	public static function writeLog(array $data): void
@@ -91,7 +100,7 @@ class AmazonDebug
 	 *
 	 * @param  string|null $id If set returns only this id logs
 	 *                         or empty array if not found
-	 * @return array           Always array, empty if not data or not found
+	 * @return array<mixed>    Always array, empty if not data or not found
 	 */
 	public static function getLog(?string $id = null): array
 	{

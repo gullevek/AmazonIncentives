@@ -99,16 +99,31 @@ to extract the below array from the thrown exception
 
 `status`, `code` and `type` must be checked on a failure.
 
-**NOTE**: if code is T001 then this is a request flood error:
+## Other Errors from exceptions
+
+### T001
+
+if code is T001 then this is a request flood error:
 In this case the request has to be resend after a certain waiting period.
 
-**NOTE**: if code is E999 some other critical error has happened
+### E9999
 
-**NOTE**: if code is E001 if the return create/cancel/check calls is not an array
+if code is E999 some other critical error has happened
 
-**NOTE**: if code is C001 a curl error has happened
+### E001
 
-**NOTE**: any other NON amazon error will have only 'message' set if run through decode
+if code is E001 if the return create/cancel/check calls is not an array
+
+### C001
+
+fif code is C001 curl failed to init
+### C002
+
+if code is C002 a curl error has happened
+
+### empty error code
+
+any other NON amazon error will have only 'message' set if run through decode
 
 ## Debugging
 

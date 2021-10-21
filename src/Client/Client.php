@@ -13,15 +13,25 @@ class Client implements ClientInterface
 	/**
 	 *
 	 * @param string $url The URL being requested, including domain and protocol
-	 * @param array $headers Headers to be used in the request
-	 * @param array|string $params Can be nested for arrays and hashes
+	 * @param array<mixed> $headers Headers to be used in the request
+	 * @param array<mixed>|string $params Can be nested for arrays and hashes
 	 *
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function request(string $url, array $headers, $params): string
 	{
 		$handle = curl_init($url);
+		if ($handle === false) {
+			// throw Error here with all codes
+			throw AmazonErrors::getError(
+				'FAILURE',
+				'C001',
+				'CurlInitError',
+				'Failed to init curl with url: ' . $url,
+				0
+			);
+		}
 		curl_setopt($handle, CURLOPT_POST, true);
 		curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 		// curl_setopt($handle, CURLOPT_FAILONERROR, true);
@@ -39,7 +49,7 @@ class Client implements ClientInterface
 			$err = curl_errno($handle);
 			AmazonDebug::writeLog(['CURL_REQUEST_RESULT' => $result]);
 			// extract all the error codes from Amazon
-			$result_ar = json_decode($result, true);
+			$result_ar = json_decode((string)$result, true);
 			// if message is 'Rate exceeded', set different error
 			if (($result_ar['message'] ?? '') == 'Rate exceeded') {
 				$error_status = 'RESEND';
@@ -62,14 +72,14 @@ class Client implements ClientInterface
 				$err
 			);
 		}
-		return $result;
+		return (string)$result;
 	}
 
 	/**
 	 * Undocumented function
 	 *
 	 * @param string $url
-	 * @param string $errno
+	 * @param int $errno
 	 * @param string $message
 	 * @return void
 	 */
@@ -97,7 +107,7 @@ class Client implements ClientInterface
 		// throw an error like in the normal reqeust, but set to CURL error
 		throw AmazonErrors::getError(
 			'FAILURE',
-			'C001',
+			'C002',
 			'CurlError',
 			$message,
 			$errno

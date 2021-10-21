@@ -2,36 +2,7 @@
 
 /*
  * Amazon Incentive Code
- *
- * # settings:
- * aws endpoint (also sets region)
- * aws key
- * aws secret
- * aws partner id
- * money type (set as default, override in call)
- * money value (set as default, override in call)
- *
- * # checks
- * endpoint + region must match
- *
- * # calls:
- * create gift card: CreateGiftCard
- * cancel gift card: CancelGiftCard
- *
- * activate gift card: ActivateGiftCard
- * deactivate gift card: DeactivateGiftCard
- *
- * gift card status: ActivationStatusCheck
- *
- * check available funds: GetAvailablefunds
- *
- * api server health check
- *
- * # sub classes
- * config reader/checker
- * API v4 encrypter
- * submitter/data getter
- * error handler/retry
+ * Amazon Gift Code on Demand
  */
 
 namespace gullevek\AmazonIncentives;
@@ -41,8 +12,11 @@ use gullevek\AmazonIncentives\Config\Config;
 use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
-class AmazonIncentives
+final class AmazonIncentives
 {
+	/**
+	 * @var Config
+	 */
 	private $config;
 
 	/**
@@ -112,7 +86,7 @@ class AmazonIncentives
 	}
 
 	/**
-	 * AmazonGiftCode make own client.
+	 * AmazonIncentives make own client.
 	 *
 	 * @param string|null $key
 	 * @param string|null $secret
@@ -120,7 +94,7 @@ class AmazonIncentives
 	 * @param string|null $endpoint
 	 * @param string|null $currency
 	 * @param bool|null $debug
-	 * @return AmazonGiftCode
+	 * @return AmazonIncentives
 	 */
 	public static function make(
 		string $key = null,
@@ -139,7 +113,7 @@ class AmazonIncentives
 	 * message (Amazon returned error message string)
 	 *
 	 * @param  string $message Exception message json string
-	 * @return array           Decoded with code, type, message fields
+	 * @return array<mixed>    Decoded with code, type, message fields
 	 */
 	public static function decodeExceptionMessage(string $message): array
 	{
@@ -162,6 +136,9 @@ class AmazonIncentives
 	// PUBLIC TEST METHODS
 	// *********************************************************************
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function checkMe(): array
 	{
 		$data = [];

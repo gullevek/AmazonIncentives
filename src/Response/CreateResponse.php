@@ -62,31 +62,26 @@ class CreateResponse
 	/**
 	 * Amazon Gift Card Raw JSON
 	 *
-	 * @var string
+	 * @var array<mixed>
 	 */
 	protected $raw_json;
-	/**
-	 * @var array
-	 */
-	protected $log;
 
 	/**
 	 * Response constructor.
-	 * @param array $json_response
+	 * @param array<mixed> $json_response
 	 */
 	public function __construct(array $json_response)
 	{
 		$this->raw_json = $json_response;
-		$this->log = AmazonDebug::getLog(AmazonDebug::getId());
 		$this->parseJsonResponse($json_response);
 	}
 
 	/**
-	 * @return array
+	 * @return array<mixed>
 	 */
 	public function getLog(): array
 	{
-		return $this->log;
+		return AmazonDebug::getLog(AmazonDebug::getId());
 	}
 
 	/**
@@ -114,9 +109,9 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * @return float
 	 */
-	public function getValue(): string
+	public function getValue(): float
 	{
 		return $this->value;
 	}
@@ -159,11 +154,11 @@ class CreateResponse
 	 */
 	public function getRawJson(): string
 	{
-		return json_encode($this->raw_json);
+		return (json_encode($this->raw_json)) ?: '';
 	}
 
 	/**
-	 * @param array $json_response
+	 * @param array<mixed> $json_response
 	 * @return CreateResponse
 	 */
 	public function parseJsonResponse(array $json_response): self

@@ -44,12 +44,12 @@ class Config implements ConfigInterface
 		?string $currency,
 		?bool $debug,
 	) {
-		$this->setAccessKey($key ?: $this->parseEnv('AWS_GIFT_CARD_KEY'));
-		$this->setSecret($secret ?: $this->parseEnv('AWS_GIFT_CARD_SECRET'));
-		$this->setPartner($partner ?: $this->parseEnv('AWS_GIFT_CARD_PARTNER_ID'));
-		$this->setEndpoint($endpoint ?: $this->parseEnv('AWS_GIFT_CARD_ENDPOINT'));
-		$this->setCurrency($currency ?: $this->parseEnv('AWS_GIFT_CARD_CURRENCY'));
-		$this->setDebug($debug ?: $this->parseEnv('AWS_DEBUG'));
+		$this->setAccessKey(($key) ?: $this->parseEnv('AWS_GIFT_CARD_KEY')); /** @phpstan-ignore-line */
+		$this->setSecret(($secret) ?: $this->parseEnv('AWS_GIFT_CARD_SECRET')); /** @phpstan-ignore-line */
+		$this->setPartner(($partner) ?: $this->parseEnv('AWS_GIFT_CARD_PARTNER_ID')); /** @phpstan-ignore-line */
+		$this->setEndpoint(($endpoint) ?: $this->parseEnv('AWS_GIFT_CARD_ENDPOINT')); /** @phpstan-ignore-line */
+		$this->setCurrency(($currency) ?: $this->parseEnv('AWS_GIFT_CARD_CURRENCY')); /** @phpstan-ignore-line */
+		$this->setDebug(($debug) ?: $this->parseEnv('AWS_DEBUG')); /** @phpstan-ignore-line */
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Config implements ConfigInterface
 	public function setEndpoint(string $endpoint): ConfigInterface
 	{
 		// TODO: check valid endpoint + set region
-		$this->endpoint = parse_url($endpoint, PHP_URL_HOST);
+		$this->endpoint = (parse_url($endpoint, PHP_URL_HOST)) ?: '';
 
 		return $this;
 	}
@@ -177,9 +177,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return bool|null
+	 * @return bool
 	 */
-	public function getDebug(): ?bool
+	public function getDebug(): bool
 	{
 		return $this->debug;
 	}

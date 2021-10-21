@@ -1,0 +1,22 @@
+# PHP Stan Config
+
+parameters:
+	tmpDir: /tmp/phpstan-codeblocks-amazon-incentives
+	level: max
+	paths:
+		- %currentWorkingDirectory%
+	excludes_analyse:
+		# ignore composer
+		- vendor
+	# ignore errores with
+	ignoreErrors:
+		-
+			message: '#Strict comparison using === between false and true will always evaluate to false.#'
+			path: %currentWorkingDirectory%/test/aws_gift_card_tests.php
+		#- 'error regex'
+		#-
+		#	message: 'error regex'
+		#	path: %currentWorkingDirectory%/www/some/*
+		#	paths:
+		#		- ...
+		#		- ...

@@ -6,7 +6,7 @@
  * write log as string from array data
  * includes timestamp
  *
- * @param  array  $data Debug log array data to add to the json string
+ * @param  array<mixed> $data Debug log array data to add to the json string
  * @return string
  */
 function writeLog(array $data): string
@@ -25,16 +25,16 @@ function writeLog(array $data): string
  */
 function dateTr(string $date): string
 {
-	return date('Y-m-d H:i:s', strtotime($date));
+	return date('Y-m-d H:i:s', (strtotime($date)) ?: null);
 }
 
 /**
  * print exception string
  *
- * @param  string  $call_request Call request, eg buyGiftCard
- * @param  integer $error_code   $e Exception error code
- * @param  array   $error        Array from the Exception message json string
- * @param  boolean $debug_print  If we should show the debug log
+ * @param  string       $call_request Call request, eg buyGiftCard
+ * @param  integer      $error_code   $e Exception error code
+ * @param  array<mixed> $error        Array from the Exception message json string
+ * @param  boolean      $debug_print  If we should show the debug log
  * @return void
  */
 function printException(
@@ -93,6 +93,9 @@ foreach (
 
 // open debug file output
 $fp = fopen('log/debug.' . date('YmdHis') . '.log', 'w');
+if (!is_resource($fp)) {
+	die("Cannot open log debug file");
+}
 
 // run info test (prints ENV vars)
 $run_info_test = false;
@@ -221,6 +224,7 @@ if ($run_gift_tests === true) {
 		$aws_test = AmazonIncentives::make()->buyGiftCard((float)$value, $creation_request_id);
 		$request_status = $aws_test->getStatus();
 		// same?
+		$claim_code = $aws_test->getClaimCode();
 		$expiration_date = $aws_test->getExpirationDate();
 		print "AWS: buyGiftCard: SAME CODE A AGAIN: " . $request_status . ": "
 			. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
@@ -241,7 +245,7 @@ if ($run_gift_tests === true) {
 }
 
 // MOCK TEST
-if ($mock_debug === true) {
+if ($run_mocks === true) {
 	$mock_ok = '<span style="color:green;">MOCK OK</span>';
 	$mock_failure = '<span style="color:red;">MOCK FAILURE</span>';
 	$mock_value = 500;
