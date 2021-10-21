@@ -249,6 +249,7 @@ if ($run_mocks === true) {
 	$mock_ok = '<span style="color:green;">MOCK OK</span>';
 	$mock_failure = '<span style="color:red;">MOCK FAILURE</span>';
 	$mock_value = 500;
+	$mock = [];
 
 	$mock['F0000'] = [ 'ret' => '', 'st' => 'SUCCESS']; // success mock
 	$mock['F1000'] = [ 'ret' => 'F100', 'st' => 'FAILURE']; // SimpleAmountIsNull, etc

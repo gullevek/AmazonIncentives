@@ -13,10 +13,3 @@ parameters:
 		-
 			message: '#Strict comparison using === between false and true will always evaluate to false.#'
 			path: %currentWorkingDirectory%/test/aws_gift_card_tests.php
-		#- 'error regex'
-		#-
-		#	message: 'error regex'
-		#	path: %currentWorkingDirectory%/www/some/*
-		#	paths:
-		#		- ...
-		#		- ...

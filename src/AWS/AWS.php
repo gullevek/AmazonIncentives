@@ -321,7 +321,7 @@ class AWS
 
 	/**
 	 * @param float $amount
-	 * @param string $creation_id
+	 * @param string|null $creation_id
 	 * @return string
 	 */
 	public function getGiftCardPayload(float $amount, ?string $creation_id = null): string

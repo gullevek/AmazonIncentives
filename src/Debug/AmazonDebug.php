@@ -16,7 +16,7 @@ class AmazonDebug
 	 */
 	private static $debug = false;
 	/**
-	 * @var string|null;
+	 * @var string|null
 	 */
 	private static $id = null;
 
@@ -91,7 +91,7 @@ class AmazonDebug
 		if (self::$debug === false) {
 			return;
 		}
-		self::$log[self::getId()][] = $data;
+		self::$log[self::getId() ?? ''][] = $data;
 	}
 
 	/**

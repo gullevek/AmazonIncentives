@@ -55,7 +55,7 @@ class Client implements ClientInterface
 				$error_status = 'RESEND';
 				$error_code = 'T001';
 				$error_type = 'RateExceeded';
-				$message = $result_ar['message'];
+				$message = $result_ar['message'] ?? 'Rate exceeded';
 			} else {
 				// for all other error messages
 				$error_status = $result_ar['agcodResponse']['status'] ?? 'FAILURE';

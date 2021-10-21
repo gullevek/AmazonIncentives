@@ -54,7 +54,7 @@ final class AmazonIncentives
 
 	/**
 	 * @param float $value
-	 * @param string $creation_request_id AWS creationRequestId
+	 * @param string|null $creation_request_id AWS creationRequestId
 	 * @return                            Response\CreateResponse
 	 *
 	 * @throws AmazonErrors
