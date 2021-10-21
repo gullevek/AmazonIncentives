@@ -155,7 +155,7 @@ class AWS
 			'Service' => $k_service_hexis,
 		]]);
 
-		$url = 'https://' . (string)$endpoint . '/' . $service_operation;
+		$url = 'https://' . $endpoint . '/' . $service_operation;
 		$headers = $this->buildHeaders($payload, $authorization_value, $date_time_string, $service_target);
 		return (new Client())->request($url, $headers, $payload);
 	}
@@ -332,7 +332,7 @@ class AWS
 			'value' =>
 				[
 					'currencyCode' => $this->config->getCurrency(),
-					'amount' => (float)$amount
+					'amount' => $amount
 				]
 		];
 		return (json_encode($payload)) ?: '';

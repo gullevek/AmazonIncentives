@@ -2,7 +2,6 @@
 
 namespace gullevek\AmazonIncentives\Response;
 
-use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateBalanceResponse
@@ -12,31 +11,31 @@ class CreateBalanceResponse
 	 *
 	 * @var string
 	 */
-	protected $amount;
+	protected $amount = '';
 	/**
 	 * Amazon Gift Card Balance Currency
 	 *
 	 * @var string
 	 */
-	protected $currency;
+	protected $currency = '';
 	/**
 	 * Amazon Gift Card Balance Status
 	 *
 	 * @var string
 	 */
-	protected $status;
+	protected $status = '';
 	/**
 	 * Amazon Gift Card Balance Timestamp
 	 *
 	 * @var string
 	 */
-	protected $timestamp;
+	protected $timestamp = '';
 	/**
 	 * Amazon Gift Card Raw JSON
 	 *
 	 * @var array<mixed>
 	 */
-	protected $raw_json;
+	protected $raw_json = [];
 
 	/**
 	 * Response constructor.
@@ -105,15 +104,6 @@ class CreateBalanceResponse
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{
-		if (!is_array($json_response)) {
-			throw AmazonErrors::getError(
-				'FAILURE',
-				'E001',
-				'NonScalarValue',
-				'Response must be a scalar value',
-				0
-			);
-		}
 		if (array_key_exists('amount', $json_response['availableFunds'])) {
 			$this->amount = $json_response['availableFunds']['amount'];
 		}

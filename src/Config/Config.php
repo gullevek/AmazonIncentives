@@ -7,27 +7,27 @@ class Config implements ConfigInterface
 	/**
 	 * @var string
 	 */
-	private $endpoint;
+	private $endpoint = '';
 	/**
 	 * @var string
 	 */
-	private $access_key;
+	private $access_key = '';
 	/**
 	 * @var string
 	 */
-	private $secret_key;
+	private $secret_key = '';
 	/**
 	 * @var string
 	 */
-	private $partner_id;
+	private $partner_id = '';
 	/**
 	 * @var string
 	 */
-	private $currency;
+	private $currency = '';
 	/**
 	 * @var bool
 	 */
-	private $debug;
+	private $debug = false;
 
 	/**
 	 * @param string|null $key
@@ -44,12 +44,36 @@ class Config implements ConfigInterface
 		?string $currency,
 		?bool $debug,
 	) {
-		$this->setAccessKey(($key) ?: $this->parseEnv('AWS_GIFT_CARD_KEY')); /** @phpstan-ignore-line */
-		$this->setSecret(($secret) ?: $this->parseEnv('AWS_GIFT_CARD_SECRET')); /** @phpstan-ignore-line */
-		$this->setPartner(($partner) ?: $this->parseEnv('AWS_GIFT_CARD_PARTNER_ID')); /** @phpstan-ignore-line */
-		$this->setEndpoint(($endpoint) ?: $this->parseEnv('AWS_GIFT_CARD_ENDPOINT')); /** @phpstan-ignore-line */
-		$this->setCurrency(($currency) ?: $this->parseEnv('AWS_GIFT_CARD_CURRENCY')); /** @phpstan-ignore-line */
-		$this->setDebug(($debug) ?: $this->parseEnv('AWS_DEBUG')); /** @phpstan-ignore-line */
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setAccessKey(($key) ?: $this->parseEnv('AWS_GIFT_CARD_KEY'));
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setSecret(($secret) ?: $this->parseEnv('AWS_GIFT_CARD_SECRET'));
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setPartner(($partner) ?: $this->parseEnv('AWS_GIFT_CARD_PARTNER_ID'));
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setEndpoint(($endpoint) ?: $this->parseEnv('AWS_GIFT_CARD_ENDPOINT'));
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setCurrency(($currency) ?: $this->parseEnv('AWS_GIFT_CARD_CURRENCY'));
+		/**
+		 * @psalm-suppress InvalidScalarArgument
+		 * @phpstan-ignore-next-line
+		 */
+		$this->setDebug(($debug) ?: $this->parseEnv('AWS_DEBUG'));
 	}
 
 	/**
@@ -80,9 +104,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getEndpoint(): ?string
+	public function getEndpoint(): string
 	{
 		return $this->endpoint;
 	}
@@ -100,9 +124,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getAccessKey(): ?string
+	public function getAccessKey(): string
 	{
 		return $this->access_key;
 	}
@@ -119,9 +143,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getSecret(): ?string
+	public function getSecret(): string
 	{
 		return $this->secret_key;
 	}
@@ -138,9 +162,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getCurrency(): ?string
+	public function getCurrency(): string
 	{
 		return $this->currency;
 	}
@@ -158,9 +182,9 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getPartner(): ?string
+	public function getPartner(): string
 	{
 		return $this->partner_id;
 	}

@@ -92,7 +92,6 @@ class Client implements ClientInterface
 				$message = 'Could not connect to AWS (' . $url . ').  Please check your '
 					. 'internet connection and try again. [' . $message . ']';
 				break;
-			case CURLE_SSL_CACERT:
 			case CURLE_SSL_PEER_CERTIFICATE:
 				$message = 'Could not verify AWS SSL certificate.  Please make sure '
 					. 'that your network is not intercepting certificates.  '

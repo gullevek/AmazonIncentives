@@ -2,7 +2,6 @@
 
 namespace gullevek\AmazonIncentives\Response;
 
-use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateResponse
@@ -12,59 +11,59 @@ class CreateResponse
 	 *
 	 * @var string
 	 */
-	protected $id;
+	protected $id = '';
 
 	/**
 	 * Amazon Gift Card creationRequestId
 	 *
 	 * @var string
 	 */
-	protected $creation_request_id;
+	protected $creation_request_id = '';
 
 	/**
 	 * Amazon Gift Card gcClaimCode
 	 *
 	 * @var string
 	 */
-	protected $claim_code;
+	protected $claim_code = '';
 
 	/**
 	 * Amazon Gift Card amount
 	 *
 	 * @var float
 	 */
-	protected $value;
+	protected $value = 0;
 
 	/**
 	 * Amazon Gift Card currency
 	 *
 	 * @var string
 	 */
-	protected $currency;
+	protected $currency = '';
 	/**
 	 * Amazon Gift Card status
 	 *
 	 * @var string
 	 */
-	protected $status;
+	protected $status = '';
 	/**
 	 * Amazon Gift Card Expiration Date
 	 *
 	 * @var string
 	 */
-	protected $expiration_date;
+	protected $expiration_date = '';
 	/**
 	 * Amazon Gift Card Expiration Date
 	 *
 	 * @var string
 	 */
-	protected $card_status;
+	protected $card_status = '';
 	/**
 	 * Amazon Gift Card Raw JSON
 	 *
 	 * @var array<mixed>
 	 */
-	protected $raw_json;
+	protected $raw_json = [];
 
 	/**
 	 * Response constructor.
@@ -158,20 +157,11 @@ class CreateResponse
 	}
 
 	/**
-	 * @param array<mixed> $json_response
+	 * @param array<array-key,mixed|array> $json_response
 	 * @return CreateResponse
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{
-		if (!is_array($json_response)) {
-			throw AmazonErrors::getError(
-				'FAILURE',
-				'E001',
-				'NonScalarValue',
-				'Response must be a scalar value',
-				0
-			);
-		}
 		if (array_key_exists('gcId', $json_response)) {
 			$this->id = $json_response['gcId'];
 		}

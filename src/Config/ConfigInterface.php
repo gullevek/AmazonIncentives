@@ -5,68 +5,68 @@ namespace gullevek\AmazonIncentives\Config;
 interface ConfigInterface
 {
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getEndpoint(): ?string;
+	public function getEndpoint(): string;
 
 	/**
 	 * @param string $endpoint
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setEndpoint(string $endpoint): ConfigInterface;
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getAccessKey(): ?string;
+	public function getAccessKey(): string;
 
 	/**
 	 * @param string $key
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setAccessKey(string $key): ConfigInterface;
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getSecret(): ?string;
+	public function getSecret(): string;
 
 	/**
 	 * @param string $secret
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setSecret(string $secret): ConfigInterface;
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getCurrency(): ?string;
+	public function getCurrency(): string;
 
 	/**
 	 * @param string $currency
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setCurrency(string $currency): ConfigInterface;
 
 	/**
-	 * @return string|null
+	 * @return string
 	 */
-	public function getPartner(): ?string;
+	public function getPartner(): string;
 
 	/**
 	 * @param string $partner
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setPartner(string $partner): ConfigInterface;
 
 	/**
-	 * @return bool|null
+	 * @return bool
 	 */
-	public function getDebug(): ?bool;
+	public function getDebug(): bool;
 
 	/**
 	 * @param bool $debug
-	 * @return $this
+	 * @return ConfigInterface
 	 */
 	public function setDebug(bool $debug): ConfigInterface;
 }
