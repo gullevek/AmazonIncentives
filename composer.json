@@ -20,5 +20,8 @@
     "minimum-stability": "dev",
     "require": {
 		"php": ">=7.4.0"
-	}
+	},
+    "archive": {
+        "exclude": ["/test/", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/"]
+    }
 }
