@@ -1,12 +1,18 @@
-# Amazon Incentives - Gift on Demand standa alone class
+# Amazon Incentives - Gift Codes on Demand stand alone class
 
 This is a abastract from (https://github.com/kamerk22/AmazonGiftCode) to be not dependend on Laravel base code.
 
-Uses .env file to load configuration data
+Amazon Gift Codes On Demand (AGCOD). Integration for Amazon Incentive API.
+
+## How to install
 
 `composer request gullevek/amazon-incentives`
 
 ## _ENV variables needed
+
+Uses .env file to load configuration data
+
+The below keys are searched in the _ENV file for loading
 
 * AWS_GIFT_CARD_KEY
 * AWS_GIFT_CARD_SECRET
@@ -74,6 +80,12 @@ If the HTTPS request does not return 220 OK it will throw an exception.
 
 The error code is the curl handler error code.
 The error message is json encoded array with the layout
+
+Use
+```php
+$exception_array = gullevek\AmazonIncentives\AmazonIncentives::decodeExceptionMessage($exception_message);
+```
+to extract the below array from the thrown exception
 ```php
 [
 	'status' => 'AWS Status FAILURE or RESEND',
@@ -87,8 +99,16 @@ The error message is json encoded array with the layout
 
 `status`, `code` and `type` must be checked on a failure.
 
-**NOTE**: if code is E999 then this is a request flood error:
+**NOTE**: if code is T001 then this is a request flood error:
 In this case the request has to be resend after a certain waiting period.
+
+**NOTE**: if code is E999 some other critical error has happened
+
+**NOTE**: if code is E001 if the return create/cancel/check calls is not an array
+
+**NOTE**: if code is C001 a curl error has happened
+
+**NOTE**: any other NON amazon error will have only 'message' set if run through decode
 
 ## Debugging
 

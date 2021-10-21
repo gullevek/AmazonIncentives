@@ -1,6 +1,7 @@
 {
     "name": "gullevek/amazon-incentives",
-    "description": "Amazon Gift on Demand Incentives",
+    "description": "Amazon Gift Codes, Gift on Demand, Incentives",
+    "keywords": ["AmazonGiftCode", "Amazon", "GiftCard", "AGCOD", "Incentives API", "Amazon Incentives API"],
     "type": "library",
     "license": "help",
     "autoload": {
@@ -11,9 +12,11 @@
     "authors": [
         {
             "name": "Clemens Schwaighofer",
-            "email": "gullevek@gullevek.org"
+            "email": "gullevek@gullevek.org",
+            "homepage": "http://gullevek.org"
         }
     ],
+    "homepage": "https://github.com/gullevek/AmazonIncentives",
     "minimum-stability": "dev",
     "require": {
 		"php": ">=7.4.0"

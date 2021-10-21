@@ -2,6 +2,7 @@
 
 namespace gullevek\AmazonIncentives\Response;
 
+use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateBalanceResponse
@@ -110,7 +111,13 @@ class CreateBalanceResponse
 	public function parseJsonResponse(array $json_response): self
 	{
 		if (!is_array($json_response)) {
-			throw new \RuntimeException('Response must be a scalar value');
+			throw AmazonErrors::getError(
+				'FAILURE',
+				'E001',
+				'NonScalarValue',
+				'Response must be a scalar value',
+				0
+			);
 		}
 		if (array_key_exists('amount', $json_response['availableFunds'])) {
 			$this->amount = $json_response['availableFunds']['amount'];

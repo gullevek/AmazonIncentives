@@ -99,7 +99,7 @@ $run_info_test = false;
 // run test to get funds info
 $run_fund_test = true;
 // run the normal get/cancel gift card tests
-$run_gift_tests = false;
+$run_gift_tests = true;
 // run mock error check tests
 $run_mocks = false;
 
