@@ -12,7 +12,6 @@ interface ClientInterface
 	 *
 	 * @return String
 	 */
-
 	public function request(string $url, array $headers, $params): string;
 }
 
