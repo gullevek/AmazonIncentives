@@ -181,6 +181,28 @@ if ($run_gift_tests === true) {
 	}
 	print "<br>";
 	sleep($debug_wait);
+	// request same card again and get error
+	try {
+		$aws_test = AmazonIncentives::make()->buyGiftCard((float)$value, $creation_request_id);
+		$request_status = $aws_test->getStatus();
+		// same?
+		$claim_code = $aws_test->getClaimCode();
+		$expiration_date = $aws_test->getExpirationDate();
+		print "AWS: buyGiftCard: CANCLED SAME CODE AGAIN: " . $request_status . ": "
+			. "creationRequestId: " . $creation_request_id . ", gcId: " . $gift_card_id . ", "
+			. "EXPIRE DATE: <b>" . dateTr($expiration_date) . "</b>, "
+			. "CLAIM CODE: <b>" . $claim_code . "</b>";
+		if ($debug_print === true) {
+			print "<pre>" . print_r($aws_test, true) . "</pre>";
+		}
+		fwrite($fp, writeLog((array)$aws_test));
+	} catch (\Exception $e) {
+		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		printException('buyGiftCard', $e->getCode(), $error, $debug_print);
+		fwrite($fp, writeLog($error));
+	}
+	print "<br>";
+	sleep($debug_wait);
 
 	// set same request ID twice to get same response test
 	try {
