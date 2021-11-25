@@ -6,7 +6,7 @@ Amazon Gift Codes On Demand (AGCOD). Integration for Amazon Incentive API.
 
 ## How to install
 
-`composer request gullevek/amazon-incentives`
+`composer require gullevek/amazon-incentives`
 
 ## _ENV variables needed
 
