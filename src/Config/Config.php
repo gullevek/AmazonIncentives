@@ -42,7 +42,7 @@ class Config implements ConfigInterface
 		?string $partner,
 		?string $endpoint,
 		?string $currency,
-		?bool $debug,
+		?bool $debug
 	) {
 		/**
 		 * @psalm-suppress InvalidScalarArgument
