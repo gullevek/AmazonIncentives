@@ -21,7 +21,7 @@
  *                          2 for file not readable
  *                          3 for file not found
  */
-function readEnvFile(string $path = __DIR__, string $env_file = '.env'): int
+function __readEnvFile(string $path = __DIR__, string $env_file = '.env'): int
 {
 	// default -1;
 	$status = -1;

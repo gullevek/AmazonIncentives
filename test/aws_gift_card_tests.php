@@ -63,7 +63,7 @@ require 'read_env_file.php';
 use gullevek\AmazonIncentives\AmazonIncentives;
 
 // load env data with dotenv
-readEnvFile(__DIR__);
+__readEnvFile(__DIR__);
 
 print "<h1>Amazon Gift Card Incentives</h1><br>";
 

@@ -1,0 +1,5 @@
+test/ export-ignore
+.gitattributes	export-ignore
+phpstan.neon	export-ignore
+psalm.xml	export-ignore
+.phan/	export-ignore
