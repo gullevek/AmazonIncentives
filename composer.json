@@ -23,5 +23,8 @@
 	},
     "archive": {
         "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
     }
 }
