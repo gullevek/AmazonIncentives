@@ -61,9 +61,10 @@ $loader->addPsr4('gullevek\\', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_
 require 'read_env_file.php';
 
 use gullevek\AmazonIncentives\AmazonIncentives;
+use gullevek\dotEnv\DotEnv;
 
 // load env data with dotenv
-__readEnvFile(__DIR__);
+DotEnv::readEnvFile(__DIR__);
 
 print "<h1>Amazon Gift Card Incentives</h1><br>";
 
