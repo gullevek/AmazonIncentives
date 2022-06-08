@@ -8,8 +8,4 @@ parameters:
 	excludePaths:
 		# ignore composer
 		- vendor
-	# ignore errores with
-	ignoreErrors:
-		-
-			message: '#Strict comparison using === between false and true will always evaluate to false.#'
-			path: %currentWorkingDirectory%/test/aws_gift_card_tests.php
+		- test

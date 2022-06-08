@@ -22,7 +22,7 @@
 		"php": ">=7.4.0"
 	},
     "archive": {
-        "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/"]
+        "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/", "/phpunit.xml"]
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
