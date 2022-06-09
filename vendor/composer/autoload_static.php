@@ -18,6 +18,7 @@ class ComposerStaticInit0c8f6bec90a6d60040a922f19a1f0e64
         ),
         'g' => 
         array (
+            'gullevek\\dotEnv\\' => 16,
             'gullevek\\AmazonIncentives\\' => 26,
         ),
         'W' => 
@@ -42,6 +43,10 @@ class ComposerStaticInit0c8f6bec90a6d60040a922f19a1f0e64
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'gullevek\\dotEnv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gullevek/dotenv/src',
         ),
         'gullevek\\AmazonIncentives\\' => 
         array (

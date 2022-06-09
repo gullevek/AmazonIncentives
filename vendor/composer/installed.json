@@ -74,6 +74,61 @@
             "install-path": "../doctrine/instantiator"
         },
         {
+            "name": "gullevek/dotenv",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gullevek/dotEnv.git",
+                "reference": "2c7931b7a57f992f9010fc7d9c58af8951f1dc24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gullevek/dotEnv/zipball/2c7931b7a57f992f9010fc7d9c58af8951f1dc24",
+                "reference": "2c7931b7a57f992f9010fc7d9c58af8951f1dc24",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9"
+            },
+            "time": "2022-06-08T05:12:35+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "gullevek\\dotEnv\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Clemens Schwaighofer",
+                    "email": "gullevek@gullevek.org",
+                    "homepage": "http://gullevek.org"
+                }
+            ],
+            "description": "Simple .env file processing and storing in _ENV array",
+            "homepage": "https://github.com/gullevek/dotEnv",
+            "keywords": [
+                ".env",
+                "_ENV",
+                "dotenv",
+                "environment variables"
+            ],
+            "support": {
+                "issues": "https://github.com/gullevek/dotEnv/issues",
+                "source": "https://github.com/gullevek/dotEnv/tree/v2.0.1"
+            },
+            "install-path": "../gullevek/dotenv"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.x-dev",
             "version_normalized": "1.9999999.9999999.9999999-dev",
@@ -2130,6 +2185,7 @@
     "dev": true,
     "dev-package-names": [
         "doctrine/instantiator",
+        "gullevek/dotenv",
         "myclabs/deep-copy",
         "nikic/php-parser",
         "phar-io/manifest",

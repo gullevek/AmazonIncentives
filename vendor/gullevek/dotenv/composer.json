@@ -1,12 +1,12 @@
 {
-    "name": "gullevek/amazon-incentives",
-    "description": "Amazon Gift Codes, Gift on Demand, Incentives",
-    "keywords": ["AmazonGiftCode", "Amazon", "GiftCard", "AGCOD", "Incentives API", "Amazon Incentives API"],
+    "name": "gullevek/dotenv",
+    "description": "Simple .env file processing and storing in _ENV array",
+    "keywords": [".env", "dotenv", "_ENV", "environment variables"],
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "gullevek\\AmazonIncentives\\": "src/"
+            "gullevek\\dotEnv\\": "src/"
         }
     },
     "authors": [
@@ -16,7 +16,7 @@
             "homepage": "http://gullevek.org"
         }
     ],
-    "homepage": "https://github.com/gullevek/AmazonIncentives",
+    "homepage": "https://github.com/gullevek/dotEnv",
     "minimum-stability": "dev",
     "require": {
 		"php": ">=7.4.0"
@@ -25,7 +25,6 @@
         "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/", "/phpunit.xml"]
     },
     "require-dev": {
-        "phpunit/phpunit": "^9",
-        "gullevek/dotenv": "dev-master"
+        "phpunit/phpunit": "^9"
     }
 }

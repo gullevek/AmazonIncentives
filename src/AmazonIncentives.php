@@ -137,6 +137,10 @@ final class AmazonIncentives
 	// *********************************************************************
 
 	/**
+	 * Prints out ENV, CONFIG and KEY data
+	 * This is for debug only, this will print out secrets.
+	 * Use with care
+	 *
 	 * @return array<mixed>
 	 */
 	public function checkMe(): array
