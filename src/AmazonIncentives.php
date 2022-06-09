@@ -53,9 +53,15 @@ final class AmazonIncentives
 	// *********************************************************************
 
 	/**
-	 * @param float $value
-	 * @param string|null $creation_request_id AWS creationRequestId
-	 * @return                            Response\CreateResponse
+	 * Buy a gift card
+	 *
+	 * @param  float       $value               Amount to purchase a gift card
+	 *                                          in currency value
+	 * @param  string|null $creation_request_id Override automatically created request id
+	 *                                          If not set will create a new one, or
+	 *                                          return data for created one
+	 * @return Response\CreateResponse Returns new created response object or
+	 *                                 previous created if creation_request_id was used
 	 *
 	 * @throws AmazonErrors
 	 */
@@ -66,9 +72,13 @@ final class AmazonIncentives
 
 
 	/**
-	 * @param string $creation_request_id AWS creationRequestId
-	 * @param string $gift_card_id        AWS gcId
-	 * @return Response\CancelResponse
+	 * Cancel a previous created gift card, if within the time frame
+	 *
+	 * @param string $creation_request_id Previous created request id from buyGiftCard
+	 * @param string $gift_card_id        Previous gift card id from buyGiftCard (gcId)
+	 * @return Response\CancelResponse Returns the cancled request object
+	 *
+	 * @throws AmazonErrors
 	 */
 	public function cancelGiftCard(string $creation_request_id, string $gift_card_id): Response\CancelResponse
 	{
@@ -76,7 +86,9 @@ final class AmazonIncentives
 	}
 
 	/**
-	 * @return Response\CreateBalanceResponse
+	 * Gets the current funds in this account
+	 *
+	 * @return Response\CreateBalanceResponse Returns the account funds object
 	 *
 	 * @throws AmazonErrors
 	 */
@@ -86,15 +98,15 @@ final class AmazonIncentives
 	}
 
 	/**
-	 * AmazonIncentives make own client.
+	 * AmazonIncentives creates own client and returns it as static object
 	 *
-	 * @param string|null $key
-	 * @param string|null $secret
-	 * @param string|null $partner
-	 * @param string|null $endpoint
-	 * @param string|null $currency
-	 * @param bool|null $debug
-	 * @return AmazonIncentives
+	 * @param string|null $key      Account key
+	 * @param string|null $secret   Secret key
+	 * @param string|null $partner  Partner ID
+	 * @param string|null $endpoint Endpoint URL including https://
+	 * @param string|null $currency Currency type. Eg USD, JPY, etc
+	 * @param bool|null $debug      Debug flag
+	 * @return AmazonIncentives     self class
 	 */
 	public static function make(
 		string $key = null,

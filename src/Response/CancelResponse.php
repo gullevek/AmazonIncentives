@@ -6,34 +6,19 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CancelResponse
 {
-	/**
-	 * Amazon Gift Card gcId.
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card gcId (gift card id). */
 	protected $id = '';
-	/**
-	 * Amazon Gift Card creationRequestId
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card creationRequestId (creation request id) */
 	protected $creation_request_id = '';
-	/**
-	 * Amazon Gift Card status
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card status */
 	protected $status = '';
-	/**
-	 * Amazon Gift Card Raw JSON
-	 *
-	 * @var array<mixed>
-	 */
+	/** @var array<mixed> Amazon Gift Card Raw JSON */
 	protected $raw_json = [];
 
 	/**
-	 * Response constructor.
-	 * @param array<mixed> $json_response
+	 * Response constructor for canceling gitf cards
+	 *
+	 * @param array<mixed> $json_response JSON response from web request to AWS
 	 */
 	public function __construct(array $json_response)
 	{
@@ -42,7 +27,9 @@ class CancelResponse
 	}
 
 	/**
-	 * @return array<mixed>
+	 * Get log entry with current set log id
+	 *
+	 * @return array<mixed> Log array
 	 */
 	public function getLog(): array
 	{
@@ -50,7 +37,9 @@ class CancelResponse
 	}
 
 	/**
-	 * @return string
+	 * The gift card id as created by the previous get code call
+	 *
+	 * @return string Gift card id
 	 */
 	public function getId(): string
 	{
@@ -58,7 +47,9 @@ class CancelResponse
 	}
 
 	/**
-	 * @return string
+	 * Creation Request id from original get code call
+	 *
+	 * @return string Creation request id
 	 */
 	public function getCreationRequestId(): string
 	{
@@ -66,7 +57,9 @@ class CancelResponse
 	}
 
 	/**
-	 * @return string
+	 * Request status
+	 *
+	 * @return string Request status as string: SUCCESS, FAILURE, RESEND
 	 */
 	public function getStatus(): string
 	{
@@ -74,7 +67,10 @@ class CancelResponse
 	}
 
 	/**
-	 * @return string
+	 * Returns the request data as json string. This is a re-encode from decoded
+	 * makeRequest call
+	 *
+	 * @return string JSON encoded string from the return values
 	 */
 	public function getRawJson(): string
 	{
@@ -82,8 +78,10 @@ class CancelResponse
 	}
 
 	/**
-	 * @param  array<mixed> $json_response
-	 * @return CancelResponse
+	 * Set class variables with response data from makeRequest and return self
+	 *
+	 * @param  array<mixed>   $json_response JSON response as array
+	 * @return CancelResponse                Return self object
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{

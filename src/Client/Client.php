@@ -7,17 +7,18 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class Client implements ClientInterface
 {
-	// instead of JsonResponse::HTTP_OK
+	/** @var int instead of JsonResponse::HTTP_OK */
 	private const HTTP_OK = 200;
 
 	/**
+	 * Makes an request to the target url via curl
+	 * Returns result as string (json)
 	 *
-	 * @param string $url The URL being requested, including domain and protocol
-	 * @param array<mixed> $headers Headers to be used in the request
-	 * @param array<mixed>|string $params Can be nested for arrays and hashes
-	 *
-	 *
-	 * @return string
+	 * @param  string              $url     The URL being requested,
+	 *                                      including domain and protocol
+	 * @param  array<mixed>        $headers Headers to be used in the request
+	 * @param  array<mixed>|string $params  Can be nested for arrays and hashes
+	 * @return string                       Result as json string
 	 */
 	public function request(string $url, array $headers, $params): string
 	{
@@ -76,11 +77,12 @@ class Client implements ClientInterface
 	}
 
 	/**
-	 * Undocumented function
+	 * handles any CURL errors and throws an error with the correct
+	 * error message
 	 *
-	 * @param string $url
-	 * @param int $errno
-	 * @param string $message
+	 * @param  string $url     The url that was originaly used
+	 * @param  int    $errno   Error number from curl handler
+	 * @param  string $message The error message string from curl
 	 * @return void
 	 */
 	private function handleCurlError(string $url, int $errno, string $message): void
