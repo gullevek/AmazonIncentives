@@ -57,8 +57,6 @@ $loader = require '../vendor/autoload.php';
 // need to add this or it will not load here
 $loader->addPsr4('gullevek\\', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src');
 // print "LOADER: <pre>" . print_r($loader, true) . "</pre>";
-// env file loader (simple)
-require 'read_env_file.php';
 
 use gullevek\AmazonIncentives\AmazonIncentives;
 use gullevek\dotEnv\DotEnv;
@@ -103,8 +101,9 @@ $mock_wait = 2;
 
 if ($run_info_test === true) {
 	$aws = new AmazonIncentives();
-	print "checkMe: <pre>" . print_r($aws->checkMe(), true) . "</pre>";
-	fwrite($fp, writeLog($aws->checkMe()));
+	$aws_check_me = $aws->checkMe();
+	print "checkMe: <pre>" . print_r($aws_check_me, true) . "</pre>";
+	fwrite($fp, writeLog($aws_check_me));
 	print "<hr>";
 }
 

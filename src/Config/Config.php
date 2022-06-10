@@ -4,37 +4,27 @@ namespace gullevek\AmazonIncentives\Config;
 
 class Config implements ConfigInterface
 {
-	/**
-	 * @var string
-	 */
+	/** @var string Endpoint URL without https:// */
 	private $endpoint = '';
-	/**
-	 * @var string
-	 */
+	/** @var string Access Key */
 	private $access_key = '';
-	/**
-	 * @var string
-	 */
+	/** @var string Secret Key */
 	private $secret_key = '';
-	/**
-	 * @var string
-	 */
+	/** @var string Partner ID */
 	private $partner_id = '';
-	/**
-	 * @var string
-	 */
+	/** @var string Currency type as USD, JPY, etc */
 	private $currency = '';
-	/**
-	 * @var bool
-	 */
+	/** @var bool Debug flag on or off */
 	private $debug = false;
 
 	/**
-	 * @param string|null $key
-	 * @param string|null $secret
-	 * @param string|null $partner
-	 * @param string|null $endpoint
-	 * @param string|null $currency
+	 * @param string|null $key      Access key
+	 * @param string|null $secret   Secret Key
+	 * @param string|null $partner  Partner ID
+	 * @param string|null $endpoint Endpoing URL including https://
+	 * @param string|null $currency Currency to use, see valid list on AWS documentation.
+	 *                              valid names are like USD, JPY, etc
+	 * @param bool|null   $debug    Debug flag
 	 */
 	public function __construct(
 		?string $key,
@@ -80,8 +70,8 @@ class Config implements ConfigInterface
 	 * string key to search, returns entry from _ENV
 	 * if not matchin key, returns empty
 	 *
-	 * @param string       $key To search in _ENV array
-	 * @return string|bool      Returns either string or true/false (DEBUG flag)
+	 * @param  string       $key To search in _ENV array
+	 * @return string|bool       Returns either string or true/false (DEBUG flag)
 	 */
 	private function parseEnv(string $key)
 	{
@@ -104,7 +94,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string Returns current set endpoint, without https://
 	 */
 	public function getEndpoint(): string
 	{
@@ -112,8 +102,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param string $endpoint
-	 * @return ConfigInterface
+	 * @param  string          $endpoint Full endpoint url with https://
+	 * @return ConfigInterface           Class interface (self)
 	 */
 	public function setEndpoint(string $endpoint): ConfigInterface
 	{
@@ -124,7 +114,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string Current access key
 	 */
 	public function getAccessKey(): string
 	{
@@ -132,8 +122,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param string $key
-	 * @return ConfigInterface
+	 * @param  string          $key Access Key to set
+	 * @return ConfigInterface      Class interface (self)
 	 */
 	public function setAccessKey(string $key): ConfigInterface
 	{
@@ -143,7 +133,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string Current secret key
 	 */
 	public function getSecret(): string
 	{
@@ -151,8 +141,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param string $secret
-	 * @return ConfigInterface
+	 * @param  string          $secret Secret key to set
+	 * @return ConfigInterface         Class interface (self)
 	 */
 	public function setSecret(string $secret): ConfigInterface
 	{
@@ -162,7 +152,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string Current set currency
 	 */
 	public function getCurrency(): string
 	{
@@ -170,8 +160,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param string $currency
-	 * @return ConfigInterface
+	 * @param  string          $currency Currency to set (eg USD, JPY, etc)
+	 * @return ConfigInterface           Class interface (self)
 	 */
 	public function setCurrency(string $currency): ConfigInterface
 	{
@@ -182,7 +172,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return string
+	 * @return string Current set partner id
 	 */
 	public function getPartner(): string
 	{
@@ -190,8 +180,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param string $partner
-	 * @return ConfigInterface
+	 * @param  string          $partner Partner id to set
+	 * @return ConfigInterface          Class interface (self)
 	 */
 	public function setPartner(string $partner): ConfigInterface
 	{
@@ -201,7 +191,7 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @return bool
+	 * @return bool Current set debug flag as bool
 	 */
 	public function getDebug(): bool
 	{
@@ -209,8 +199,8 @@ class Config implements ConfigInterface
 	}
 
 	/**
-	 * @param bool $debug
-	 * @return ConfigInterface
+	 * @param  bool            $debug Set debug flag as bool
+	 * @return ConfigInterface        Class interface (self)
 	 */
 	public function setDebug(bool $debug): ConfigInterface
 	{

@@ -8,12 +8,15 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 final class AmazonErrors extends RuntimeException
 {
 	/**
-	 * @param  string $error_status agcodResponse->status from Amazon
-	 * @param  string $error_code   errorCode from Amazon
-	 * @param  string $error_type   errorType from Amazon
-	 * @param  string $message
-	 * @param  int    $_error_code
-	 * @return AmazonErrors
+	 * Returns an Runtime exception including a json encoded string with all
+	 * parameters including last log id and log
+	 *
+	 * @param  string       $error_status agcodResponse->status from Amazon
+	 * @param  string       $error_code   errorCode from Amazon
+	 * @param  string       $error_type   errorType from Amazon
+	 * @param  string       $message      Message string to ad
+	 * @param  int          $_error_code  Error code to set
+	 * @return AmazonErrors               Exception Class
 	 */
 	public static function getError(
 		string $error_status,
