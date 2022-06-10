@@ -67,7 +67,7 @@ final class AmazonIncentives
 	 */
 	public function buyGiftCard(float $value, string $creation_request_id = null): Response\CreateResponse
 	{
-		return (new AWS($this->config))->getCode($value, $creation_request_id);
+		return ($this->newAWS())->getCode($value, $creation_request_id);
 	}
 
 
@@ -82,7 +82,7 @@ final class AmazonIncentives
 	 */
 	public function cancelGiftCard(string $creation_request_id, string $gift_card_id): Response\CancelResponse
 	{
-		return (new AWS($this->config))->cancelCode($creation_request_id, $gift_card_id);
+		return ($this->newAWS())->cancelCode($creation_request_id, $gift_card_id);
 	}
 
 	/**
@@ -94,7 +94,7 @@ final class AmazonIncentives
 	 */
 	public function getAvailableFunds(): Response\CreateBalanceResponse
 	{
-		return (new AWS($this->config))->getBalance();
+		return ($this->newAWS())->getBalance();
 	}
 
 	/**
@@ -117,6 +117,17 @@ final class AmazonIncentives
 		bool $debug = null
 	): AmazonIncentives {
 		return new static($key, $secret, $partner, $endpoint, $currency, $debug);
+	}
+
+	/**
+	 * wrapper to create new AWS class.
+	 * used in all buy/cancel/get calss
+	 *
+	 * @return AWS Main AWS worker class
+	 */
+	public function newAWS(): AWS
+	{
+		return new AWS($this->config);
 	}
 
 	/**

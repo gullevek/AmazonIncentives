@@ -130,6 +130,16 @@ class AWS
 	}
 
 	/**
+	 * return a new curl connection client class
+	 *
+	 * @return Client Curl connection Client
+	 */
+	public function newClient(): Client
+	{
+		return new Client();
+	}
+
+	/**
 	 * General request method for all actions
 	 * Calls the Client class that actually runs the json request
 	 * For service_operation valid data see AWS GCOD documentation
@@ -190,7 +200,7 @@ class AWS
 			$date_time_string,
 			$service_target
 		);
-		return (new Client())->request($url, $headers, $payload);
+		return ($this->newClient())->request($url, $headers, $payload);
 	}
 
 	/**
