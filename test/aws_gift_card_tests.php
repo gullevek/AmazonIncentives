@@ -88,7 +88,7 @@ $run_fund_test = true;
 // run the normal get/cancel gift card tests
 $run_gift_tests = true;
 // run mock error check tests
-$run_mocks = false;
+$run_mocks = true;
 
 // should we print debug info
 $debug_print = false;
