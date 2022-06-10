@@ -22,12 +22,12 @@ final class AmazonIncentives
 	/**
 	 * AmazonGiftCode constructor.
 	 *
-	 * @param string|null $key
-	 * @param string|null $secret
-	 * @param string|null $partner
-	 * @param string|null $endpoint
-	 * @param string|null $currency
-	 * @param bool|null $debug
+	 * @param string|null $key      Account key
+	 * @param string|null $secret   Secret key
+	 * @param string|null $partner  Partner ID
+	 * @param string|null $endpoint Endpoint URL including https://
+	 * @param string|null $currency Currency type. Eg USD, JPY, etc
+	 * @param bool|null $debug      Debug flag
 	 */
 	public function __construct(
 		string $key = null,

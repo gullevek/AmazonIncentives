@@ -24,6 +24,7 @@ class Config implements ConfigInterface
 	 * @param string|null $endpoint Endpoing URL including https://
 	 * @param string|null $currency Currency to use, see valid list on AWS documentation.
 	 *                              valid names are like USD, JPY, etc
+	 * @param bool|null   $debug    Debug flag
 	 */
 	public function __construct(
 		?string $key,
