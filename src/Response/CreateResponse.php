@@ -6,68 +6,29 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateResponse
 {
-	/**
-	 * Amazon Gift Card gcId.
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card gcId */
 	protected $id = '';
-
-	/**
-	 * Amazon Gift Card creationRequestId
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card creationRequestId */
 	protected $creation_request_id = '';
-
-	/**
-	 * Amazon Gift Card gcClaimCode
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card gcClaimCode */
 	protected $claim_code = '';
-
-	/**
-	 * Amazon Gift Card amount
-	 *
-	 * @var float
-	 */
+	/** @var float Amazon Gift Card amount */
 	protected $value = 0;
-
-	/**
-	 * Amazon Gift Card currency
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card currency */
 	protected $currency = '';
-	/**
-	 * Amazon Gift Card status
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card status */
 	protected $status = '';
-	/**
-	 * Amazon Gift Card Expiration Date
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Expiration Date */
 	protected $expiration_date = '';
-	/**
-	 * Amazon Gift Card Expiration Date
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Expiration Date */
 	protected $card_status = '';
-	/**
-	 * Amazon Gift Card Raw JSON
-	 *
-	 * @var array<mixed>
-	 */
+	/** @var array<mixed> Amazon Gift Card Raw JSON as array */
 	protected $raw_json = [];
 
 	/**
-	 * Response constructor.
-	 * @param array<mixed> $json_response
+	 * Response constructor for creating gift cards
+	 *
+	 * @param array<mixed> $json_response JSON response from web request to AWS
 	 */
 	public function __construct(array $json_response)
 	{
@@ -76,7 +37,9 @@ class CreateResponse
 	}
 
 	/**
-	 * @return array<mixed>
+	 * Get log entry with current set log id
+	 *
+	 * @return array<mixed> Log array
 	 */
 	public function getLog(): array
 	{
@@ -84,7 +47,9 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * Gift Card ID returned from AWS. Can be used in the cancel request
+	 *
+	 * @return string Gift card id
 	 */
 	public function getId(): string
 	{
@@ -92,7 +57,10 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * Either the one set with the method parameter, or automatically created
+	 * during get code request
+	 *
+	 * @return string Creation request id
 	 */
 	public function getCreationRequestId(): string
 	{
@@ -100,7 +68,10 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * The actual gift code, recommended not to be stored anywhere and only shown
+	 * to user
+	 *
+	 * @return string Gift order claim code on AWS
 	 */
 	public function getClaimCode(): string
 	{
@@ -108,7 +79,9 @@ class CreateResponse
 	}
 
 	/**
-	 * @return float
+	 * The ordered gift code value in given currency
+	 *
+	 * @return float Gift order value in currency
 	 */
 	public function getValue(): float
 	{
@@ -116,7 +89,9 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * The currently set currency
+	 *
+	 * @return string Currency type. Eg USD, JPY, etc
 	 */
 	public function getCurrency(): string
 	{
@@ -124,15 +99,10 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getStatus(): string
-	{
-		return $this->status;
-	}
-
-	/**
-	 * @return string
+	 * Expiration date for the ordered gift code.
+	 * eg 20220609T061446Z
+	 *
+	 * @return string Timestamp until when the gift code is valid. Ymd\THis\Z
 	 */
 	public function getExpirationDate(): string
 	{
@@ -140,16 +110,31 @@ class CreateResponse
 	}
 
 	/**
-	 * @return string
+	 * Gift card status. If the same creation request id is sent again and the
+	 * gift card got cancled, this is reflected here
+	 *
+	 * @return string Gift card status
 	 */
 	public function getCardStatus(): string
 	{
 		return $this->card_status;
 	}
 
+	/**
+	 * Request status
+	 *
+	 * @return string Request status as string: SUCCESS, FAILURE, RESEND
+	 */
+	public function getStatus(): string
+	{
+		return $this->status;
+	}
 
 	/**
-	 * @return string
+	 * @Returns the request data as json string. This is a re-encode from decoded
+	 * makeRequest call
+	 *
+	 * @return string JSON encoded string from the return values
 	 */
 	public function getRawJson(): string
 	{
@@ -157,8 +142,10 @@ class CreateResponse
 	}
 
 	/**
-	 * @param array<array-key,mixed|array> $json_response
-	 * @return CreateResponse
+	 * Set class variables with response data from makeRequest and return self
+	 *
+	 * @param  array<mixed>   $json_response JSON response as array
+	 * @return CreateResponse                Return self object
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{

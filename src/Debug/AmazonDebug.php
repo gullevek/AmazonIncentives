@@ -7,17 +7,11 @@ namespace gullevek\AmazonIncentives\Debug;
 
 class AmazonDebug
 {
-	/**
-	 * @var array<mixed>
-	 */
+	/** @var array<mixed> Log data array log id -> array of log entries */
 	private static $log = [];
-	/**
-	 * @var bool
-	 */
+	/** @var bool debug flag */
 	private static $debug = false;
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null Last set internal log array id */
 	private static $id = null;
 
 	/**

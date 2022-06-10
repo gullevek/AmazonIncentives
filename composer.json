@@ -25,6 +25,7 @@
         "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/", "/phpunit.xml"]
     },
     "require-dev": {
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9",
+        "gullevek/dotenv": "dev-master"
     }
 }

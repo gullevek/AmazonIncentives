@@ -6,41 +6,21 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateBalanceResponse
 {
-	/**
-	 * Amazon Gift Card Balance Amount
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Balance Amount */
 	protected $amount = '';
-	/**
-	 * Amazon Gift Card Balance Currency
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Balance Currency */
 	protected $currency = '';
-	/**
-	 * Amazon Gift Card Balance Status
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Balance Status */
 	protected $status = '';
-	/**
-	 * Amazon Gift Card Balance Timestamp
-	 *
-	 * @var string
-	 */
+	/** @var string Amazon Gift Card Balance Timestamp */
 	protected $timestamp = '';
-	/**
-	 * Amazon Gift Card Raw JSON
-	 *
-	 * @var array<mixed>
-	 */
+	/** @var array<mixed> Amazon Gift Card Raw JSON */
 	protected $raw_json = [];
 
 	/**
-	 * Response constructor.
+	 * Response constructor for requesting account funds status
 	 *
-	 * @param array<mixed> $json_response
+	 * @param array<mixed> $json_response JSON response from web request to AWS
 	 */
 	public function __construct(array $json_response)
 	{
@@ -49,7 +29,9 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * @return array<mixed>
+	 * Get log entry with current set log id
+	 *
+	 * @return array<mixed> Log array
 	 */
 	public function getLog(): array
 	{
@@ -57,7 +39,9 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * @return string
+	 * Return the current available funds amount
+	 *
+	 * @return string Funds amount in set currency
 	 */
 	public function getAmount(): string
 	{
@@ -65,7 +49,9 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * @return string
+	 * Get the set currency type
+	 *
+	 * @return string Currency type. Eg USD, JPY, etc
 	 */
 	public function getCurrency(): string
 	{
@@ -73,15 +59,10 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getStatus(): string
-	{
-		return $this->status;
-	}
-
-	/**
-	 * @return string
+	 * Get timestamp as set.
+	 * eg 20220609T061446Z
+	 *
+	 * @return string Timestamp string. Ymd\THis\Z
 	 */
 	public function getTimestamp(): string
 	{
@@ -89,7 +70,20 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * @return string
+	 * Request status
+	 *
+	 * @return string Request status as string: SUCCESS, FAILURE, RESEND
+	 */
+	public function getStatus(): string
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Returns the request data as json string. This is a re-encode from decoded
+	 * makeRequest call
+	 *
+	 * @return string JSON encoded string from the return values
 	 */
 	public function getRawJson(): string
 	{
@@ -97,10 +91,10 @@ class CreateBalanceResponse
 	}
 
 	/**
-	 * Undocumented function
+	 * Set class variables with response data from makeRequest and return self
 	 *
-	 * @param array<mixed> $json_response
-	 * @return CreateBalanceResponse
+	 * @param  array<mixed>          $json_response JSON response as array
+	 * @return CreateBalanceResponse                Return self object
 	 */
 	public function parseJsonResponse(array $json_response): self
 	{
