@@ -1,6 +1,63 @@
 {
     "packages": [
         {
+            "name": "dg/bypass-finals",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dg/bypass-finals.git",
+                "reference": "fb62dc6ab1a097e234fa1567943d8e87ea4d0842"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/fb62dc6ab1a097e234fa1567943d8e87ea4d0842",
+                "reference": "fb62dc6ab1a097e234fa1567943d8e87ea4d0842",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "nette/tester": "^2.3",
+                "phpstan/phpstan": "^0.12"
+            },
+            "time": "2022-04-14T12:24:34+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                }
+            ],
+            "description": "Removes final keyword from source code on-the-fly and allows mocking of final methods and classes",
+            "keywords": [
+                "finals",
+                "mocking",
+                "phpunit",
+                "testing",
+                "unit"
+            ],
+            "support": {
+                "issues": "https://github.com/dg/bypass-finals/issues",
+                "source": "https://github.com/dg/bypass-finals/tree/master"
+            },
+            "install-path": "../dg/bypass-finals"
+        },
+        {
             "name": "doctrine/instantiator",
             "version": "1.5.x-dev",
             "version_normalized": "1.5.9999999.9999999-dev",
@@ -2184,6 +2241,7 @@
     ],
     "dev": true,
     "dev-package-names": [
+        "dg/bypass-finals",
         "doctrine/instantiator",
         "gullevek/dotenv",
         "myclabs/deep-copy",

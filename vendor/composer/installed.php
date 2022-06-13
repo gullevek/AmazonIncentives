@@ -5,11 +5,22 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '1e836e9a2bd6e41c4555cf917fe645b453cb5b79',
+        'reference' => 'fd5477269b9a133448cecb5854b784033d6c6c62',
         'name' => 'gullevek/amazon-incentives',
         'dev' => true,
     ),
     'versions' => array(
+        'dg/bypass-finals' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dg/bypass-finals',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'reference' => 'fb62dc6ab1a097e234fa1567943d8e87ea4d0842',
+            'dev_requirement' => true,
+        ),
         'doctrine/instantiator' => array(
             'pretty_version' => '1.5.x-dev',
             'version' => '1.5.9999999.9999999-dev',
@@ -25,7 +36,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '1e836e9a2bd6e41c4555cf917fe645b453cb5b79',
+            'reference' => 'fd5477269b9a133448cecb5854b784033d6c6c62',
             'dev_requirement' => false,
         ),
         'gullevek/dotenv' => array(

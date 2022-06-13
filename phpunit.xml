@@ -2,4 +2,8 @@
     colors="true"
     verbose="true"
 >
+    <!-- Below removes final from classes for mock tests -->
+    <extensions>
+        <extension class="test\phpUnit\Hook\BypassFinalHook" file="test/phpUnit/Hook/BypassFinalHook.php" />
+    </extensions>
 </phpunit>
