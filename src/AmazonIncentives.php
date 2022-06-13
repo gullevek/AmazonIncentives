@@ -137,22 +137,12 @@ final class AmazonIncentives
 	 *
 	 * @param  string $message Exception message json string
 	 * @return array<mixed>    Decoded with code, type, message fields
+	 *
+	 * @deprecated use \gullevek\AmazonIncentives\Exceptions\AmazonErrors::decodeExceptionMessage()
 	 */
 	public static function decodeExceptionMessage(string $message): array
 	{
-		$message_ar = json_decode($message, true);
-		// if we have an error, build empty block and only fill message
-		if (json_last_error()) {
-			$message_ar = [
-				'status' => '',
-				'code' => '',
-				'type' => '',
-				'message' => $message,
-				'log_id' => '',
-				'log' => []
-			];
-		}
-		return $message_ar;
+		return AmazonErrors::decodeExceptionMessage($message);
 	}
 
 	// *********************************************************************

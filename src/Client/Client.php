@@ -91,13 +91,13 @@ class Client implements ClientInterface
 			case CURLE_COULDNT_CONNECT:
 			case CURLE_COULDNT_RESOLVE_HOST:
 			case CURLE_OPERATION_TIMEOUTED:
-				$message = 'Could not connect to AWS (' . $url . ').  Please check your '
+				$message = 'Could not connect to AWS (' . $url . '). Please check your '
 					. 'internet connection and try again. [' . $message . ']';
 				break;
 			case CURLE_SSL_PEER_CERTIFICATE:
-				$message = 'Could not verify AWS SSL certificate.  Please make sure '
-					. 'that your network is not intercepting certificates.  '
-					. '(Try going to ' . $url . 'in your browser.)  '
+				$message = 'Could not verify AWS SSL certificate. Please make sure '
+					. 'that your network is not intercepting certificates. '
+					. '(Try going to ' . $url . 'in your browser.) '
 					. '[' . $message . ']';
 				break;
 			case 0:
