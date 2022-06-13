@@ -478,7 +478,7 @@ final class AmazonIncentivesTest extends TestCase
 				'Assert creation request id starts with partner id'
 			);
 			// gift card id is number
-			$this->assertIsNumeric(
+			$this->assertIsString(
 				$response->getId(),
 				'Assert gift card id is numeric'
 			);
@@ -487,14 +487,52 @@ final class AmazonIncentivesTest extends TestCase
 				$response->getClaimCode(),
 				'Assert claim code is string'
 			);
+			// card status
+			$this->assertEquals(
+				'Fulfilled',
+				$response->getCardStatus(),
+				'Assert card status'
+			);
+			// value/amount of gitft
+			$this->assertEquals(
+				$amount,
+				$response->getValue(),
+				'Assert card amount value'
+			);
+			// check currency
+			$this->assertEquals(
+				$agcod->checkMe()['CONFIG']->getCurrency(),
+				$response->getCurrency(),
+				'Assert card amount currency'
+			);
 			// only for requests outside US/Australia cards
 			// expiration date: Thu Jun 10 14:59:59 UTC 2032
+			$this->assertMatchesRegularExpression(
+				"/^[A-Z]{1}[a-z]{2} [A-Z]{1}[a-z]{2} \d{1,2} \d{1,2}:\d{1,2}:\d{1,2} [A-Z]{3} \d{4}$/",
+				$response->getExpirationDate(),
+				'Assert expiration date regex'
+			);
 		} else {
 			// value match to mock response
 			$this->assertEquals(
 				$mock_response['status'],
 				$response->getStatus(),
 				'Assert mock status'
+			);
+			$this->assertEquals(
+				$mock_response['cardInfo']['cardStatus'],
+				$response->getCardStatus(),
+				'Assert mock card status'
+			);
+			$this->assertEquals(
+				$mock_response['cardInfo']['value']['amount'],
+				$response->getValue(),
+				'Assert mock card amount value'
+			);
+			$this->assertEquals(
+				$mock_response['cardInfo']['value']['currencyCode'],
+				$response->getCurrency(),
+				'Assert mock card amount currency'
 			);
 			$this->assertEquals(
 				$mock_response['creationRequestId'],
@@ -556,6 +594,21 @@ final class AmazonIncentivesTest extends TestCase
 			'Assert status'
 		);
 		$this->assertEquals(
+			$response_a->getCardStatus(),
+			$response_b->getCardStatus(),
+			'Assert card status'
+		);
+		$this->assertEquals(
+			$response_a->getValue(),
+			$response_b->getValue(),
+			'Assert card amount value'
+		);
+		$this->assertEquals(
+			$response_a->getCurrency(),
+			$response_b->getCurrency(),
+			'Assert card amount currency'
+		);
+		$this->assertEquals(
 			$response_a->getCreationRequestId(),
 			$response_b->getCreationRequestId(),
 			'Assert creation request id'
@@ -609,7 +662,7 @@ final class AmazonIncentivesTest extends TestCase
 	}
 
 	/**
-	 * Undocumented function
+	 * Cancel a bought gift card
 	 *
 	 * @dataProvider amazonIncentivesProviderCancel
 	 * @testdox AWS Incentives cancel gift card [$_dataName]
@@ -651,7 +704,7 @@ final class AmazonIncentivesTest extends TestCase
 				'Assert creation request id starts with partner id'
 			);
 			// gift card id is number
-			$this->assertIsNumeric(
+			$this->assertIsString(
 				$response->getId(),
 				'Assert gift card id is numeric'
 			);
@@ -674,6 +727,96 @@ final class AmazonIncentivesTest extends TestCase
 				$mock_response['gcId'],
 				$response->getId(),
 				'Assert mock gift card id'
+			);
+		}
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @return array
+	 */
+	public function amazonIncentivesProviderRefunded(): array
+	{
+		// get connectors
+		$connectors = $this->awsIncentivesProvider();
+		// 0: connect array (env file, env folder, parameters array)
+		// 1: mock or normal call
+		// 2: if mock connect response must be defined here
+		// 3: exepcted response array
+		return [
+			'non mock test data' => [
+				'connect' => $connectors['env_test'],
+				'mock' => false,
+				'mock_response' => null,
+			],
+			'mock data test' => [
+				'connect' => $connectors['parameter_dummy'],
+				'mock' => true,
+				'mock_response' => [
+					'cardInfo' => [
+						'cardNumber' => null,
+						'cardStatus' => 'RefundedToPurchaser',
+						'expirationDate' => null,
+						'value' => [
+							'amount' => 1000.0,
+							'currencyCode' => 'JPY',
+						],
+					],
+					'gcClaimCode' => 'LJ49-AKDUV6-UYCP',
+					'creationRequestId' => 'PartnerId_62a309167e7a4',
+					'gcId' => '5535125272070255',
+					'status' => 'SUCCESS',
+				],
+			],
+		];
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @dataProvider amazonIncentivesProviderRefunded
+	 * @testdox AWS Incentives request cancled gift card [$_dataName]
+	 *
+	 * @param  array      $connect
+	 * @param  bool       $mock
+	 * @param  array|null $mock_response
+	 * @return void
+	 */
+	public function testAwsIncentivesRequestRefundedGiftCard(
+		array $connect,
+		bool $mock,
+		?array $mock_response
+	): void {
+		// load class
+		$agcod = $this->awsIncentivesStartUp(
+			$connect,
+			$mock,
+			$mock_response,
+		);
+
+		if ($mock === false) {
+			// get a gift card
+			$purchase = $agcod->buyGiftCard(500.0);
+			// then cancel it
+			$agcod->cancelGiftCard(
+				$purchase->getCreationRequestId(),
+				$purchase->getId()
+			);
+			// buy again with same getCreationRequestId id will now have
+			$purchase_again = $agcod->buyGiftCard(500.0, $purchase->getCreationRequestId());
+			// should return like purchase put with RefundedToPurchaser
+			$this->assertEquals(
+				'RefundedToPurchaser',
+				$purchase_again->getCardStatus(),
+				'Assert gift card purchased again after cancel with same code'
+			);
+		} else {
+			$response = $agcod->buyGiftCard(500.0);
+			$this->assertEquals(
+				$mock_response['cardInfo']['cardStatus'],
+				$response->getCardStatus(),
+				'Assert mock card status'
 			);
 		}
 	}

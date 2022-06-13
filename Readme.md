@@ -4,6 +4,8 @@ This is a abastract from [https://github.com/kamerk22/AmazonGiftCod](https://git
 
 Amazon Gift Codes On Demand (AGCOD). Integration for Amazon Incentive API.
 
+[General Amazon Incentives Documentation](https://developer.amazon.com/docs/incentives-api/digital-gift-cards.html)
+
 ## How to install
 
 `composer require gullevek/amazon-incentives`
