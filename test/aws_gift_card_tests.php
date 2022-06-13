@@ -59,6 +59,7 @@ $loader->addPsr4('gullevek\\', __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_
 // print "LOADER: <pre>" . print_r($loader, true) . "</pre>";
 
 use gullevek\AmazonIncentives\AmazonIncentives;
+use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\dotEnv\DotEnv;
 
 // load env data with dotenv
@@ -75,29 +76,33 @@ print "<h1>Amazon Gift Card Incentives</h1><br>";
 // optional
 // debug: AWS_DEBUG (if not set: off)
 
+// run info test (prints ENV vars)
+$run_info_test = !empty($_GET['info']) ? true : false;
+// run test to get funds info
+$run_fund_test = !empty($_GET['fund']) ? true : false;
+// run the normal get/cancel gift card tests
+$run_gift_tests = !empty($_GET['gift']) ? true : false;
+// run mock error check tests
+$run_mocks = !empty($_GET['mocks']) ? true : false;
+
+// should we print debug info
+$debug_print = !empty($_GET['debug']) ? true : false;
+// how long to wait between each call
+$debug_wait = 2;
+// if set to true will print all the debug logs too
+$mock_debug = !empty($_GET['debug_mock']) ? true : false;
+// wait in seconds between mock tests
+$mock_wait = 2;
+
+if (empty($_GET)) {
+	print "<b>Use _GET parameters to start tests</b>";
+}
+
 // open debug file output
 $fp = fopen('log/debug.' . date('YmdHis') . '.log', 'w');
 if (!is_resource($fp)) {
 	die("Cannot open log debug file");
 }
-
-// run info test (prints ENV vars)
-$run_info_test = false;
-// run test to get funds info
-$run_fund_test = true;
-// run the normal get/cancel gift card tests
-$run_gift_tests = true;
-// run mock error check tests
-$run_mocks = true;
-
-// should we print debug info
-$debug_print = false;
-// how long to wait between each call
-$debug_wait = 2;
-// if set to true will print all the debug logs too
-$mock_debug = false;
-// wait in seconds between mock tests
-$mock_wait = 2;
 
 if ($run_info_test === true) {
 	$aws = new AmazonIncentives();
@@ -120,7 +125,7 @@ if ($run_fund_test === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		printException('getAvailableFunds', $e->getCode(), $error, $debug_print);
 		fwrite($fp, writeLog($error));
 	};
@@ -152,7 +157,7 @@ if ($run_gift_tests === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (\Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		printException('buyGiftCard', $e->getCode(), $error, $debug_print);
 		fwrite($fp, writeLog($error));
 	}
@@ -169,7 +174,7 @@ if ($run_gift_tests === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (\Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		print "AWS: cancelGiftCard: " . $error['status']
 			. " [" . $e->getCode() . "]: "
 			. $error['code'] . " | " . $error['type']
@@ -197,7 +202,7 @@ if ($run_gift_tests === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (\Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		printException('buyGiftCard', $e->getCode(), $error, $debug_print);
 		fwrite($fp, writeLog($error));
 	}
@@ -221,7 +226,7 @@ if ($run_gift_tests === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (\Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		printException('cancelGiftCard', $e->getCode(), $error, $debug_print);
 		fwrite($fp, writeLog($error));
 	}
@@ -242,7 +247,7 @@ if ($run_gift_tests === true) {
 		}
 		fwrite($fp, writeLog((array)$aws_test));
 	} catch (\Exception $e) {
-		$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+		$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 		printException('buyGiftCard', $e->getCode(), $error, $debug_print);
 		fwrite($fp, writeLog($error));
 	}
@@ -295,7 +300,7 @@ if ($run_mocks === true) {
 			}
 			fwrite($fp, writeLog((array)$aws_test));
 		} catch (Exception $e) {
-			$error = AmazonIncentives::decodeExceptionMessage($e->getMessage());
+			$error = AmazonErrors::decodeExceptionMessage($e->getMessage());
 			print "AWS: MOCK: " . $creation_id . ": buyGiftCard: " . $error['status']
 				. " [" . $e->getCode() . "]: "
 				. $error['code'] . " | " . $error['type']
