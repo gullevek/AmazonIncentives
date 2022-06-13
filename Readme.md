@@ -1,6 +1,6 @@
 # Amazon Incentives - Gift Codes on Demand stand alone class
 
-This is a abastract from (https://github.com/kamerk22/AmazonGiftCode) to be not dependend on Laravel base code.
+This is a abastract from [https://github.com/kamerk22/AmazonGiftCod](https://github.com/kamerk22/AmazonGiftCode) to be not dependend on Laravel base code.
 
 Amazon Gift Codes On Demand (AGCOD). Integration for Amazon Incentive API.
 
@@ -82,18 +82,21 @@ The error code is the curl handler error code.
 The error message is json encoded array with the layout
 
 Use
+
 ```php
 $exception_array = gullevek\AmazonIncentives\AmazonIncentives::decodeExceptionMessage($exception_message);
 ```
+
 to extract the below array from the thrown exception
+
 ```php
 [
-	'status' => 'AWS Status FAILURE or RESEND',
-	'code' => 'AWS Error Code Fnnn',
-	'type' => 'AWS Error info',
-	'message' => 'AWS long error message',
-	'log_id' => 'If logging is on the current log id',
-	'log' => 'The complete log collected over all calls',
+    'status' => 'AWS Status FAILURE or RESEND',
+    'code' => 'AWS Error Code Fnnn',
+    'type' => 'AWS Error info',
+    'message' => 'AWS long error message',
+    'log_id' => 'If logging is on the current log id',
+    'log' => 'The complete log collected over all calls',
 ]
 ```
 
@@ -106,7 +109,7 @@ to extract the below array from the thrown exception
 if code is T001 then this is a request flood error:
 In this case the request has to be resend after a certain waiting period.
 
-### E9999
+### E999
 
 if code is E999 some other critical error has happened
 
@@ -117,6 +120,7 @@ if code is E001 if the return create/cancel/check calls is not an array
 ### C001
 
 fif code is C001 curl failed to init
+
 ### C002
 
 if code is C002 a curl error has happened
@@ -132,6 +136,7 @@ If AWS_DEBUG is set to 1 and internal array will be written with debug info.
 The gulleek\AmazonIncentives\Debug\AmazonDebug class handles all this.
 
 In the gulleek\AmazonIncentives\AmazonIncentives main class the debugger gets set
+
 * setDebug that turns debugger on/off and if on sets unique id (getId to check)
 
 New entries can be written with
