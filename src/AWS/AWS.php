@@ -364,7 +364,7 @@ class AWS
 				break;
 			case 'agcod-v2-eu.amazon.com':
 			case 'agcod-v2-eu-gamma.amazon.com':
-				$region_name = 'us-west-1';
+				$region_name = 'eu-west-1';
 				break;
 			case 'agcod-v2-fe.amazon.com':
 			case 'agcod-v2-fe-gamma.amazon.com':
