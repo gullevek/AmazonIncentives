@@ -85,7 +85,7 @@ class Config implements ConfigInterface
 			case 'AWS_GIFT_CARD_PARTNER_ID':
 			case 'AWS_GIFT_CARD_ENDPOINT':
 			case 'AWS_GIFT_CARD_CURRENCY':
-				$return = $_ENV[$key] ?? '';
+				$return = (string)($_ENV[$key] ?? '');
 				break;
 			default:
 				break;
