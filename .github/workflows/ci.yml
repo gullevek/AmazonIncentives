@@ -11,10 +11,23 @@ jobs:
       - uses: php-actions/composer@v6
         env:
           COMPOSER_ROOT_VERSION: dev-master
+      - name: "Restore result cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: ./tmp
+          key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
+          restore-keys: |
+            result-cache-v1-${{ matrix.php-version }}-
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
         with:
           path: src/
+      - name: "Save result cache"
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ./tmp
+          key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
       # We need to use phpunit from the self install to get the class paths
       - name: PHPunit Tests Prepare
         env:

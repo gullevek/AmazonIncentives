@@ -1,7 +1,7 @@
 # PHP Stan Config
 
 parameters:
-	tmpDir: /tmp/phpstan-codeblocks-amazon-incentives
+	tmpDir: %currentWorkingDirectory%/tmp/phpstan-codeblocks-amazon-incentives
 	level: 8
 	paths:
 		- %currentWorkingDirectory%/src
