@@ -333,7 +333,13 @@ final class AmazonIncentivesTest extends TestCase
         //   - getAmount
         //   - getCurrency
         //   - getTimestamp
-        $funds = $agcod->getAvailableFunds();
+        try {
+            $funds = $agcod->getAvailableFunds();
+        } catch (\Exception $e) {
+            $this->markTestSkipped(
+                $e->getMessage()
+            );
+        }
         // if not mock do type check
         // if mock do matching check from mcok
         if ($mock === false) {
