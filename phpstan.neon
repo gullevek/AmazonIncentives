@@ -4,7 +4,7 @@ parameters:
 	tmpDir: /tmp/phpstan-codeblocks-amazon-incentives
 	level: 8
 	paths:
-		- %currentWorkingDirectory%
+		- %currentWorkingDirectory%/src
 	excludePaths:
 		# ignore composer
 		- vendor

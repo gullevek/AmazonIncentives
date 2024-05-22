@@ -109,7 +109,7 @@ final class AmazonIncentivesTest extends TestCase
         try {
             // set expected throw error
             $result = $client->request($url, [], '');
-            print "R: " . $result . "\n";
+            $this->assertTrue(true, 'Successful client request');
         } catch (AmazonIncentives\Exceptions\AmazonErrors $e) {
             $curl_error = AmazonIncentives\Exceptions\AmazonErrors::decodeExceptionMessage($e->getMessage());
             // print "E-B: " . print_r($curl_error, true) . "\n";

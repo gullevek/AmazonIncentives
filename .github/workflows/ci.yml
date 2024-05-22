@@ -1,0 +1,35 @@
+name: CI
+run-name: ${{ github.actor}} runs CI
+
+on: [push]
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: php-actions/composer@v6
+        env:
+          COMPOSER_ROOT_VERSION: dev-master
+      - name: PHPStan Static Analysis
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/
+      # We need to use phpunit from the self install to get the class paths
+      - name: PHPunit Tests Prepare
+        env:
+          AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
+          AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
+          AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
+          AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
+          AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
+        run: |
+          echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
+          echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
+          echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
+          echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
+          echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
+          echo "AWS_DEBUG=1" >> test/.env;
+      - name: PHPunit Tests
+        run: |
+          vendor/bin/phpunit

@@ -6,4 +6,9 @@
     <extensions>
         <extension class="test\phpUnit\Hook\BypassFinalHook" file="test/phpUnit/Hook/BypassFinalHook.php" />
     </extensions>
+    <testsuites>
+        <testsuite name="unit">
+            <directory>test/phpUnit/</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
