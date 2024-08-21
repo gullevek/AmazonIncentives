@@ -32,7 +32,7 @@ final class AmazonErrors extends RuntimeException
                 'code' => $error_code,
                 'type' => $error_type,
                 'message' => $message,
-                // atach log data if exists
+                // attach log data if exists
                 'log_id' => AmazonDebug::getId(),
                 'log' => AmazonDebug::getLog(),
             ])) ?: 'AmazonErrors: json encode problem: ' . $message,
