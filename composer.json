@@ -27,6 +27,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9",
         "gullevek/dotenv": "dev-master",
-        "dg/bypass-finals": "dev-master"
+        "dg/bypass-finals": "dev-master",
+        "phpstan/phpstan": "2.1.x-dev",
+        "phpstan/phpstan-deprecation-rules": "2.0.x-dev"
     }
 }
