@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // simple write all into an array that we can poll in the return group
 // to activate AmazonDebug::setDebug(true) must be called once
 
@@ -7,7 +9,7 @@ namespace gullevek\AmazonIncentives\Debug;
 
 class AmazonDebug
 {
-    /** @var array<mixed> Log data array log id -> array of log entries */
+    /** @var array<string,array<array<mixed>>> Log data array log id -> array of log entries */
     private static $log = [];
     /** @var bool debug flag */
     private static $debug = false;

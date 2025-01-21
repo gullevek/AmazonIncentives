@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace gullevek\AmazonIncentives\AWS;
 
 use gullevek\AmazonIncentives\Client\Client;
@@ -9,6 +11,7 @@ use gullevek\AmazonIncentives\Debug\AmazonDebug;
 use gullevek\AmazonIncentives\Response\CancelResponse;
 use gullevek\AmazonIncentives\Response\CreateBalanceResponse;
 use gullevek\AmazonIncentives\Response\CreateResponse;
+use gullevek\AmazonIncentives\Handle\Json;
 
 class AWS
 {
@@ -72,12 +75,12 @@ class AWS
         $canonical_request = $this->getCanonicalRequest($service_operation, $payload);
         $date_time_string = $this->getTimestamp();
         AmazonDebug::writeLog(['call' => __METHOD__]);
-        $result = json_decode($this->makeRequest(
+        $result = Json::jsonDecode($this->makeRequest(
             $payload,
             $canonical_request,
             $service_operation,
             $date_time_string
-        ), true);
+        ));
         return new CreateResponse($result);
     }
 
@@ -97,12 +100,12 @@ class AWS
         $canonical_request = $this->getCanonicalRequest($service_operation, $payload);
         $date_time_string = $this->getTimestamp();
         AmazonDebug::writeLog(['call' => __METHOD__]);
-        $result = json_decode($this->makeRequest(
+        $result = Json::jsonDecode($this->makeRequest(
             $payload,
             $canonical_request,
             $service_operation,
             $date_time_string
-        ), true);
+        ));
         return new CancelResponse($result);
     }
 
@@ -120,12 +123,12 @@ class AWS
         $canonical_request = $this->getCanonicalRequest($service_operation, $payload);
         $date_time_string = $this->getTimestamp();
         AmazonDebug::writeLog(['call' => __METHOD__]);
-        $result = json_decode($this->makeRequest(
+        $result = Json::jsonDecode($this->makeRequest(
             $payload,
             $canonical_request,
             $service_operation,
             $date_time_string
-        ), true);
+        ));
         return new CreateBalanceResponse($result);
     }
 
@@ -212,7 +215,7 @@ class AWS
      * @param  string       $date_time_string    Ymd\THis\Z encoded timestamp, getTimestamp()
      * @param  string       $service_target      Target service in the agcod string:
      *                                           Value like com.amazonaws.agcod.<sn>.<so>
-     * @return array<mixed>                      Header data as array for curl request
+     * @return array<int,string>                 Header data as array for curl request
      */
     public function buildHeaders(
         string $payload,

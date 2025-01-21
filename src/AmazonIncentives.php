@@ -30,12 +30,12 @@ final class AmazonIncentives
      * @param bool|null $debug      Debug flag
      */
     public function __construct(
-        string $key = null,
-        string $secret = null,
-        string $partner = null,
-        string $endpoint = null,
-        string $currency = null,
-        bool $debug = null
+        ?string $key = null,
+        ?string $secret = null,
+        ?string $partner = null,
+        ?string $endpoint = null,
+        ?string $currency = null,
+        ?bool $debug = null
     ) {
         // load AWS settings
         // fail here if settings missing
@@ -65,7 +65,7 @@ final class AmazonIncentives
      *
      * @throws AmazonErrors
      */
-    public function buyGiftCard(float $value, string $creation_request_id = null): Response\CreateResponse
+    public function buyGiftCard(float $value, ?string $creation_request_id = null): Response\CreateResponse
     {
         return ($this->newAWS())->getCode($value, $creation_request_id);
     }
@@ -109,12 +109,12 @@ final class AmazonIncentives
      * @return AmazonIncentives     self class
      */
     public static function make(
-        string $key = null,
-        string $secret = null,
-        string $partner = null,
-        string $endpoint = null,
-        string $currency = null,
-        bool $debug = null
+        ?string $key = null,
+        ?string $secret = null,
+        ?string $partner = null,
+        ?string $endpoint = null,
+        ?string $currency = null,
+        ?bool $debug = null
     ): AmazonIncentives {
         return new static($key, $secret, $partner, $endpoint, $currency, $debug);
     }

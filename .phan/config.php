@@ -26,6 +26,7 @@
 // use Phan\Config;
 
 return [
+    "minimum_target_php_version" => "7.4",
     // If true, missing properties will be created when
     // they are first seen. If false, we'll report an
     // error message.
@@ -65,7 +66,7 @@ return [
     'directory_list' => [
         // Change this to include the folders you wish to analyze
         // (and the folders of their dependencies)
-        '.'
+        'src/'
         // 'www',
         // To speed up analysis, we recommend going back later and
         // limiting this to only the vendor/ subdirectories your

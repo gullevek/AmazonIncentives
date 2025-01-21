@@ -2,7 +2,7 @@
 
 parameters:
 	tmpDir: %currentWorkingDirectory%/tmp/phpstan-codeblocks-amazon-incentives
-	level: 8
+	level: 9
 	paths:
 		- %currentWorkingDirectory%/src
 	excludePaths:

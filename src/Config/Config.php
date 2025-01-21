@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace gullevek\AmazonIncentives\Config;
 
 class Config implements ConfigInterface
@@ -85,7 +87,8 @@ class Config implements ConfigInterface
             case 'AWS_GIFT_CARD_PARTNER_ID':
             case 'AWS_GIFT_CARD_ENDPOINT':
             case 'AWS_GIFT_CARD_CURRENCY':
-                $return = (string)($_ENV[$key] ?? '');
+                $return = !empty($_ENV[$key]) && is_string($_ENV[$key]) ?
+                    $_ENV[$key] : '';
                 break;
             default:
                 break;

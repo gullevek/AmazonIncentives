@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace gullevek\AmazonIncentives\Client;
 
 use gullevek\AmazonIncentives\Exceptions\AmazonErrors;
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
+use gullevek\AmazonIncentives\Handle\Json;
 
 class Client implements ClientInterface
 {
@@ -16,7 +19,7 @@ class Client implements ClientInterface
      *
      * @param  string              $url     The URL being requested,
      *                                      including domain and protocol
-     * @param  array<mixed>        $headers Headers to be used in the request
+     * @param  array<int,string>        $headers Headers to be used in the request
      * @param  array<mixed>|string $params  Can be nested for arrays and hashes
      * @return string                       Result as json string
      */
@@ -50,7 +53,12 @@ class Client implements ClientInterface
             $err = curl_errno($handle);
             AmazonDebug::writeLog(['CURL_REQUEST_RESULT' => $result]);
             // extract all the error codes from Amazon
-            $result_ar = json_decode((string)$result, true);
+            // note we do not care about result errors here, if json decode fails, just set to empty
+            try {
+                $result_ar = Json::jsonDecode((string)$result);
+            } catch (AmazonErrors $e) {
+                $result_ar = [];
+            }
             // if message is 'Rate exceeded', set different error
             if (($result_ar['message'] ?? '') == 'Rate exceeded') {
                 $error_status = 'RESEND';

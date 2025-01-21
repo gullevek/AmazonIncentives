@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace gullevek\AmazonIncentives\Response;
 
 use gullevek\AmazonIncentives\Debug\AmazonDebug;
 
 class CreateBalanceResponse
 {
-    /** @var string Amazon Gift Card Balance Amount */
-    protected $amount = '';
+    /** @var float Amazon Gift Card Balance Amount */
+    protected $amount = 0;
     /** @var string Amazon Gift Card Balance Currency */
     protected $currency = '';
     /** @var string Amazon Gift Card Balance Status */
@@ -41,9 +43,9 @@ class CreateBalanceResponse
     /**
      * Return the current available funds amount
      *
-     * @return string Funds amount in set currency
+     * @return float Funds amount in set currency
      */
-    public function getAmount(): string
+    public function getAmount(): float
     {
         return $this->amount;
     }
@@ -98,10 +100,18 @@ class CreateBalanceResponse
      */
     public function parseJsonResponse(array $json_response): self
     {
-        if (array_key_exists('amount', $json_response['availableFunds'])) {
-            $this->amount = $json_response['availableFunds']['amount'];
+        if (
+            is_array($json_response['availableFunds']) &&
+            array_key_exists('amount', $json_response['availableFunds']) &&
+            is_numeric($json_response['availableFunds']['amount'])
+        ) {
+            $this->amount = (float)$json_response['availableFunds']['amount'];
         }
-        if (array_key_exists('currencyCode', $json_response['availableFunds'])) {
+        if (
+            is_array($json_response['availableFunds']) &&
+            array_key_exists('currencyCode', $json_response['availableFunds']) &&
+            is_string($json_response['availableFunds']['currencyCode'])
+        ) {
             $this->currency = $json_response['availableFunds']['currencyCode'];
         }
         // SUCCESS, FAILURE, RESEND

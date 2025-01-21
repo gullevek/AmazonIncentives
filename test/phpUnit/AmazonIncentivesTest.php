@@ -351,7 +351,7 @@ final class AmazonIncentivesTest extends TestCase
             // numeric number
             $this->assertIsNumeric(
                 $funds->getAmount(),
-                'Assert amoount is numerc'
+                'Assert amoount is numeric'
             );
             // USD, JPY, etc
             $this->assertIsString(

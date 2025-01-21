@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace gullevek\AmazonIncentives\Exceptions;
 
 use RuntimeException;
@@ -52,7 +54,7 @@ final class AmazonErrors extends RuntimeException
     {
         $message_ar = json_decode($message, true);
         // if we have an error, build empty block and only fill message
-        if (json_last_error()) {
+        if (json_last_error() || $message_ar === null || !is_array($message_ar)) {
             $message_ar = [
                 'status' => '',
                 'code' => '',
