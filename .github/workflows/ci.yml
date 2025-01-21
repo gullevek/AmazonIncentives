@@ -29,7 +29,7 @@ jobs:
           path: ./tmp
           key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
       # We need to use phpunit from the self install to get the class paths
-			# Skip auto tests here, there are too many problems with flooding of the AWS API from github
+      # Skip auto tests here, there are too many problems with flooding of the AWS API from github
       # - name: PHPunit Tests Prepare
       #   env:
       #     AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
