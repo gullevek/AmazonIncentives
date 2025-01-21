@@ -127,6 +127,11 @@ fif code is C001 curl failed to init
 
 if code is C002 a curl error has happened
 
+### J-number
+
+if a JSON error was encountered during some encoding this error will be found.
+The number is the json error code.
+
 ### empty error code
 
 any other NON amazon error will have only 'message' set if run through decode
