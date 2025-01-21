@@ -30,20 +30,20 @@ jobs:
           key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
       # We need to use phpunit from the self install to get the class paths
       # Skip auto tests here, there are too many problems with flooding of the AWS API from github
-      # - name: PHPunit Tests Prepare
-      #   env:
-      #     AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
-      #     AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
-      #     AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
-      #     AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
-      #     AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
-      #   run: |
-      #     echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
-      #     echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
-      #     echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
-      #     echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
-      #     echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
-      #     echo "AWS_DEBUG=1" >> test/.env;
-      # - name: PHPunit Tests
-      #   run: |
-      #     vendor/bin/phpunit
+      - name: PHPunit Tests Prepare
+        env:
+          AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
+          AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
+          AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
+          AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
+          AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
+        run: |
+          echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
+          echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
+          echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
+          echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
+          echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
+          echo "AWS_DEBUG=1" >> test/.env;
+      - name: PHPunit Tests
+        run: |
+          vendor/bin/phpunit

@@ -954,6 +954,11 @@ final class AmazonIncentivesTest extends TestCase
             );
         } catch (\Exception $e) {
             $error = AmazonIncentives\Exceptions\AmazonErrors::decodeExceptionMessage($e->getMessage());
+            if ($error['code'] == "T001") {
+                $this->markTestSkipped(
+                    "Skipped because of flooding"
+                );
+            }
             $this->assertEquals(
                 [
                     'code' => $expected_code,
