@@ -155,16 +155,37 @@ On exception the log data is in the error message json (see exceptions)
 
 ## Development
 
+Run `composer install` or `phive install` to setup the tools
+
+phpcs config is stored in `phpcs.xml` and should be picked up by the standard tools
+
+* we use tabs instead of spaces for indents, the rest is standard PSR1+PSR12
+
+### Direct tests
+
+These direct run tests exist:
+
+* `tests/aws_read_env_tests.php`: Equal to running `tests/aws_gift_card_tests.php?info=true`, will output env test data
+* `test/aws_gift_card_tests.php`: The following parameters exists
+  * info: set to print out info
+  * fund: set to run funds get tests
+  * gift: run all the gift card get/set/remove tests
+  * mocks: run the error checks
+  * debug: print out debug information
+  * debug_mock: print out all the debug logs too
+
 ### Phan
 
-`vendor/bin/phan --analyze-twice`
+`vendor/bin/phan --analyze-twice` or `tools/phan --analyze-twice`
 
 ### PHPstan
 
-`vendor/bin/phpstan`
+`vendor/bin/phpstan` or `tools/phpstan`
+
+> [!notice] Level 9 is set as we have various mixed values that cannot be easily changed into a direct value type
 
 ### PHPUnit
 
 Unit tests have to be run from base folder with
 
-`vendor/bin/phpunit test/phpUnitTests/`
+`vendor/bin/phpunit` or `tools/phpunit`

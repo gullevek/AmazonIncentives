@@ -19,7 +19,7 @@ class Client implements ClientInterface
 	 *
 	 * @param  string              $url     The URL being requested,
 	 *                                      including domain and protocol
-	 * @param  array<int,string>        $headers Headers to be used in the request
+	 * @param  array<int,string>   $headers Headers to be used in the request
 	 * @param  array<mixed>|string $params  Can be nested for arrays and hashes
 	 * @return string                       Result as json string
 	 */

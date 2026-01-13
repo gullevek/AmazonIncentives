@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-<phpunit colors="true" cacheDirectory=".phpunit.cache">
+<phpunit colors="true" cacheDirectory=".phpunit.cache" bootstrap="vendor/autoload.php" >
     <!-- Below removes final from classes for mock tests -->
-    <!-- <extensions>
-        <extension class="test\phpUnit\Extension\BypassFinalExtension" file="test/phpUnit/Extension/BypassFinalExtension.php" />
-    </extensions> -->
     <extensions>
         <bootstrap class="DG\BypassFinals\PHPUnitExtension"/>
     </extensions>
