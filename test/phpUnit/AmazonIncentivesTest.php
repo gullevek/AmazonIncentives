@@ -6,14 +6,18 @@ namespace test\phpUnit;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use gullevek\AmazonIncentives;
 use gullevek\dotEnv\DotEnv;
 
 /**
  * Test class for ACL\Login
- * @coversDefaultClass \gullevek\AmazonIncentives
- * @testdox \gullevek\AmazonIncentives full flow test
  */
+#[CoversClass(\gullevek\AmazonIncentives\AmazonIncentives::class)]
+#[TestDox("\gullevek\AmazonIncentives full flow tests")]
 final class AmazonIncentivesTest extends TestCase
 {
 	/** @var int wait tme in seconds between AWS side mock calls */
@@ -22,10 +26,10 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Client curl exception testing
 	 *
-	 * @testdox AWS Incentives curl exception handling
-	 *
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox("AWS Incentives curl exception handling")]
 	public function testAwsIncentivesCurlException(): void
 	{
 		// this is the exceptio we want
@@ -41,7 +45,7 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function amazonIncentivesProviderErrors(): array
+	public static function amazonIncentivesProviderErrors(): array
 	{
 		// parameter data only for this
 		// 0: url
@@ -76,12 +80,12 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Test errors thrown in Client class
 	 *
-	 * @dataProvider amazonIncentivesProviderErrors
-	 * @testdox AWS Incentives error handling [$_dataName]
-	 *
 	 * @param  string $url
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives curl error handling [$_dataName]')]
+	#[DataProvider('amazonIncentivesProviderErrors')]
 	public function testAwsIncentivesCurlErrors(
 		string $url,
 		string $expected_status,
@@ -239,7 +243,7 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function awsIncentivesProvider(): array
+	public static function awsIncentivesProvider(): array
 	{
 		// 0: .env file folder
 		// 1: .env file name (if not set use .env)
@@ -271,12 +275,12 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function amazonIncentivesProviderGetFunds(): array
+	public static function amazonIncentivesProviderGetFunds(): array
 	{
 		// remove final keyword
 		// BypassFinals::enable();
 		// get connectors
-		$connectors = $this->awsIncentivesProvider();
+		$connectors = self::awsIncentivesProvider();
 		// 0: connect array (env file, env folder, parameters array)
 		// 1: mock or normal call
 		// 2: if mock connect response must be defined here
@@ -286,9 +290,6 @@ final class AmazonIncentivesTest extends TestCase
 				'connect' => $connectors['env_test'],
 				'mock' => false,
 				'mock_response' => null,
-				'expected' => [
-					//
-				]
 			],
 			'mock data test' => [
 				'connect' => $connectors['parameter_dummy'],
@@ -308,14 +309,14 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Undocumented function
 	 *
-	 * @dataProvider amazonIncentivesProviderGetFunds
-	 * @testdox AWS Incentives get available funds [$_dataName]
-	 *
 	 * @param  array      $connect
 	 * @param  bool       $mock
 	 * @param  array|null $mock_response
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives get available funds [$_dataName]')]
+	#[DataProvider('amazonIncentivesProviderGetFunds')]
 	public function testAwsIncentivesGetAvailableFunds(
 		array $connect,
 		bool $mock,
@@ -393,10 +394,10 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function amazonIncentivesProviderBuy(): array
+	public static function amazonIncentivesProviderBuy(): array
 	{
 		// get connectors
-		$connectors = $this->awsIncentivesProvider();
+		$connectors = self::awsIncentivesProvider();
 		// 0: connect array (env file, env folder, parameters array)
 		// 1: mock or normal call
 		// 2: if mock connect response must be defined here
@@ -436,15 +437,15 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Undocumented function
 	 *
-	 * @dataProvider amazonIncentivesProviderBuy
-	 * @testdox AWS Incentives buy gift card [$_dataName]
-	 *
 	 * @param  array      $connect
 	 * @param  bool       $mock
 	 * @param  array|null $mock_response
 	 * @param  float      $amount
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives buy gift card [$_dataName]')]
+	#[DataProvider('amazonIncentivesProviderBuy')]
 	public function testAwsIncentivesBuyGiftCard(
 		array $connect,
 		bool $mock,
@@ -565,10 +566,7 @@ final class AmazonIncentivesTest extends TestCase
 
 	/**
 	 * Buy a gift card and use same creation request id to get another gift card
-	 * has to return same data ggain
-	 *
-	 * @dataProvider amazonIncentivesProviderBuy
-	 * @testdox AWS Incentives buy gift card and again with same creation request id [$_dataName]
+	 * has to return same data again
 	 *
 	 * @param  array      $connect
 	 * @param  bool       $mock
@@ -576,6 +574,9 @@ final class AmazonIncentivesTest extends TestCase
 	 * @param  float      $amount
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives buy gift card and again with same creation request id [$_dataName]')]
+		#[DataProvider('amazonIncentivesProviderBuy')]
 	public function testAwsIncentivesSameBuyGiftCard(
 		array $connect,
 		bool $mock,
@@ -641,10 +642,10 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function amazonIncentivesProviderCancel(): array
+	public static function amazonIncentivesProviderCancel(): array
 	{
 		// get connectors
-		$connectors = $this->awsIncentivesProvider();
+		$connectors = self::awsIncentivesProvider();
 		// 0: connect array (env file, env folder, parameters array)
 		// 1: mock or normal call
 		// 2: if mock connect response must be defined here
@@ -670,14 +671,14 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Cancel a bought gift card
 	 *
-	 * @dataProvider amazonIncentivesProviderCancel
-	 * @testdox AWS Incentives cancel gift card [$_dataName]
-	 *
 	 * @param  array      $connect
 	 * @param  bool       $mock
 	 * @param  array|null $mock_response
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives cancel gift card [$_dataName]')]
+	#[DataProvider('amazonIncentivesProviderCancel')]
 	public function testAwsIncentivesCancelGiftCard(
 		array $connect,
 		bool $mock,
@@ -742,10 +743,10 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function amazonIncentivesProviderRefunded(): array
+	public static function amazonIncentivesProviderRefunded(): array
 	{
 		// get connectors
-		$connectors = $this->awsIncentivesProvider();
+		$connectors = self::awsIncentivesProvider();
 		// 0: connect array (env file, env folder, parameters array)
 		// 1: mock or normal call
 		// 2: if mock connect response must be defined here
@@ -781,14 +782,14 @@ final class AmazonIncentivesTest extends TestCase
 	/**
 	 * Undocumented function
 	 *
-	 * @dataProvider amazonIncentivesProviderRefunded
-	 * @testdox AWS Incentives request cancled gift card [$_dataName]
-	 *
 	 * @param  array      $connect
 	 * @param  bool       $mock
 	 * @param  array|null $mock_response
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AWS Incentives request canceled gift card [$_dataName]')]
+	#[DataProvider('amazonIncentivesProviderRefunded')]
 	public function testAwsIncentivesRequestRefundedGiftCard(
 		array $connect,
 		bool $mock,
@@ -832,83 +833,83 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function awsIncentivesMockProvider(): array
+	public static function awsIncentivesMockProvider(): array
 	{
 		return [
 			'successMock' => [
 				'creation_request_id' => 'F0000',
-				'return_code' => '',
-				'status' => 'SUCCESS'
+				'expected_code' => '',
+				'expected_status' => 'SUCCESS'
 			],
 			'SimpleAmountIsNull' => [
 				'creation_request_id' => 'F1000',
-				'return_code' => 'F100',
-				'status' => 'FAILURE'
+				'expected_code' => 'F100',
+				'expected_status' => 'FAILURE'
 			],
 			'InvalidAmountInput' => [
 				'creation_request_id' => 'F2003',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'InvalidAmountValue' => [
 				'creation_request_id' => 'F2004',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'InvalidCurrencyCodeInput' => [
 				'creation_request_id' => 'F2005',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'CardActivatedWithDifferentRequestId' => [
 				'creation_request_id' => 'F2010',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'MaxAmountExceeded' => [
 				'creation_request_id' => 'F2015',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'CurrencyCodeMismatch' => [
 				'creation_request_id' => 'F2016',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'FractionalAmountNotAllowed' => [
 				'creation_request_id' => 'F2017',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'CancelRequestArrivedAfterTimeLimit' => [
 				'creation_request_id' => 'F2047',
-				'return_code' => 'F200',
-				'status' => 'FAILURE'
+				'expected_code' => 'F200',
+				'expected_status' => 'FAILURE'
 			],
 			'InsufficientFunds' => [
 				'creation_request_id' => 'F3003',
-				'return_code' => 'F300',
-				'status' => 'FAILURE'
+				'expected_code' => 'F300',
+				'expected_status' => 'FAILURE'
 			],
 			'AccountHasProblems' => [
 				'creation_request_id' => 'F3005',
-				'return_code' => 'F300',
-				'status' => 'FAILURE'
+				'expected_code' => 'F300',
+				'expected_status' => 'FAILURE'
 			],
 			'CustomerSurpassedDailyVelocityLimit' => [
 				'creation_request_id' => 'F3010',
-				'return_code' => 'F300',
-				'status' => 'FAILURE'
+				'expected_code' => 'F300',
+				'expected_status' => 'FAILURE'
 			],
 			'SystemTemporarilyUnavailable' => [
 				'creation_request_id' => 'F4000',
-				'return_code' => 'F400',
-				'status' => 'RESEND'
+				'expected_code' => 'F400',
+				'expected_status' => 'RESEND'
 			],
 			'UnknownError' => [
 				'creation_request_id' => 'F5000',
-				'return_code' => 'F500',
-				'status' => 'FAILURE'
+				'expected_code' => 'F500',
+				'expected_status' => 'FAILURE'
 			],
 		];
 	}
@@ -918,11 +919,11 @@ final class AmazonIncentivesTest extends TestCase
 	 * This only works with a valid server connection.
 	 * Runs through AWS Incentives mock values and checks the return code and status
 	 *
-	 * @dataProvider awsIncentivesMockProvider
-	 * @testdox AWS Incentives Mock $creation_request_id will be $expected_status with $expected_code [$_dataName]
-	 *
 	 * @return void
 	 */
+	#[Test]
+	#[Testdox('AWS Incentives Mock $creation_request_id will be $expected_status with $expected_code [$_dataName]')]
+	#[DataProvider('awsIncentivesMockProvider')]
 	public function testAwsIncentivesWithMocks(
 		string $creation_request_id,
 		string $expected_code,
@@ -980,14 +981,14 @@ final class AmazonIncentivesTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function checkMeProvider(): array
+	public static function checkMeProvider(): array
 	{
 		// 0: .env file folder
 		// 1: .env file name (if not set use .env)
 		// 2: parameters that override _ENV variables
 		return [
 			'default all empty' => [
-				'use_env' => null,
+				'env_folder' => null,
 				'env_file' => null,
 				'parameters' => null,
 			],
@@ -1002,7 +1003,6 @@ final class AmazonIncentivesTest extends TestCase
 					'currency' => 'currency',
 					'debug' => true,
 				],
-				'expected' => [],
 			],
 			'load from env' => [
 				'env_folder' => __DIR__ . DIRECTORY_SEPARATOR . '..',
@@ -1031,15 +1031,14 @@ final class AmazonIncentivesTest extends TestCase
 	 * - parseing for endoint as url
 	 * - override check for _ENV vs parameter
 	 *
-	 * @cover ::checkMe
-	 * @dataProvider checkMeProvider
-	 * @testdox AmazonIncentives tests [$_dataName]
-	 *
 	 * @param  string|null $env_folder
 	 * @param  string|null $env_file
 	 * @param  array|null  $parameters
 	 * @return void
 	 */
+	#[Test]
+	#[TestDox('AmazonIncentives tests [$_dataName]')]
+	#[DataProvider('checkMeProvider')]
 	public function testCheckMe(?string $env_folder, ?string $env_file, ?array $parameters): void
 	{
 		// reset _ENV before each run to avoid nothing to load errors

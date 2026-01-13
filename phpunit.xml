@@ -1,10 +1,11 @@
-<phpunit
-    colors="true"
-    verbose="false"
->
+<?xml version="1.0"?>
+<phpunit colors="true" cacheDirectory=".phpunit.cache">
     <!-- Below removes final from classes for mock tests -->
+    <!-- <extensions>
+        <extension class="test\phpUnit\Extension\BypassFinalExtension" file="test/phpUnit/Extension/BypassFinalExtension.php" />
+    </extensions> -->
     <extensions>
-        <extension class="test\phpUnit\Hook\BypassFinalHook" file="test/phpUnit/Hook/BypassFinalHook.php" />
+        <bootstrap class="DG\BypassFinals\PHPUnitExtension"/>
     </extensions>
     <testsuites>
         <testsuite name="unit">
