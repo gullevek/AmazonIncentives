@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="MyStandard">
+	<description>PSR12 override rules (strict, standard). Switch spaces indent to tab.</description>
+	<arg name="tab-width" value="4"/>
+	<rule ref="PSR1"/>
+	<rule ref="PSR12">
+		<!-- turn off white space check for tab -->
+		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+	</rule>
+	<!-- no space indent, must be tab, 4 is tab iwdth -->
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="indent" value="4"/>
+			<property name="tabIndent" value="true"/>
+		</properties>
+	</rule>
+</ruleset>

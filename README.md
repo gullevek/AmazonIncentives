@@ -152,3 +152,19 @@ New entries can be written with
 
 On sucessful run the log data is accessable with `$aws->getLog()`
 On exception the log data is in the error message json (see exceptions)
+
+## Development
+
+### Phan
+
+`vendor/bin/phan --analyze-twice`
+
+### PHPstan
+
+`vendor/bin/phpstan`
+
+### PHPUnit
+
+Unit tests have to be run from base folder with
+
+`vendor/bin/phpunit test/phpUnitTests/`

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phive xmlns="https://phar.io/phive">
+  <phar name="phpcs" version="^4.0.1" installed="4.0.1" location="./tools/phpcs" copy="false"/>
+  <phar name="phpcbf" version="^4.0.1" installed="4.0.1" location="./tools/phpcbf" copy="false"/>
+  <phar name="phan" version="^5.5.2" installed="5.5.2" location="./tools/phan" copy="false"/>
+  <phar name="phpstan" version="^2.1.33" installed="2.1.33" location="./tools/phpstan" copy="false"/>
+  <phar name="phpunit" version="^12.5.4" installed="12.5.4" location="./tools/phpunit" copy="false"/>
+</phive>
