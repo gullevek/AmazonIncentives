@@ -13,7 +13,7 @@ jobs:
   ci-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: php-actions/composer@v6
         env:
           COMPOSER_ROOT_VERSION: dev-master
