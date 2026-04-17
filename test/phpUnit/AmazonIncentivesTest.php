@@ -12,6 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use gullevek\AmazonIncentives;
 use gullevek\dotEnv\DotEnv;
+use gullevek\dotEnv\Levels\DotEnvLevel;
 
 /**
  * Test class for ACL\Login
@@ -164,7 +165,7 @@ final class AmazonIncentivesTest extends TestCase
 		}
 
 		// ENV must match _ENV vars if set
-		if (!empty($env_folder) && $status != 0) {
+		if (!empty($env_folder) && $status != DotEnvLevel::SUCCESS) {
 			// abort with error
 			$this->markTestSkipped(
 				'Cannot read .env file needed for AWS tests: ' . $status
@@ -934,7 +935,7 @@ final class AmazonIncentivesTest extends TestCase
 		// read the .env file
 		$status = DotEnv::readEnvFile(__DIR__ . DIRECTORY_SEPARATOR . '..');
 		// if loading failed, abort
-		if ($status != 0) {
+		if ($status != DotEnvLevel::SUCCESS) {
 			// abort with error
 			$this->markTestSkipped(
 				'Cannot read .env file needed for AWS mock tests: ' . $status
@@ -1066,7 +1067,7 @@ final class AmazonIncentivesTest extends TestCase
 		}
 		$aws_check_me = $aws->checkMe();
 		// ENV must match _ENV vars if set
-		if (!empty($env_folder) && $status != 0) {
+		if (!empty($env_folder) && $status != DotEnvLevel::SUCCESS) {
 			// abort with error
 			$this->markTestSkipped(
 				'Cannot read .env file needed: ' . $status

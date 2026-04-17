@@ -17,7 +17,8 @@
         }
     ],
     "homepage": "https://github.com/gullevek/AmazonIncentives",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
 		"php": ">=7.4.0"
 	},
@@ -25,10 +26,11 @@
         "exclude": ["/test/", "/test/*", "/phpstan.neon", "/psalm.xml", "/.phan/", "/.vscode/", "/phpunit.xml"]
     },
     "require-dev": {
-        "gullevek/dotenv": "dev-master",
-        "dg/bypass-finals": "dev-master",
-        "phpstan/phpstan": "2.1.x-dev",
-        "phpstan/phpstan-deprecation-rules": "2.0.x-dev",
-        "phpunit/phpunit": "^12"
+        "gullevek/dotenv": "^3.0",
+        "dg/bypass-finals": "^1.9",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpdoc-parser": "^2.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpunit/phpunit": "^13"
     }
 }
