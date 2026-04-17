@@ -5,4 +5,4 @@ composer.lock
 **/.target
 .phpunit.cache/
 tools/
-phpunit-coverage/
+build/

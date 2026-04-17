@@ -18,4 +18,10 @@
 			<directory>./src</directory>
 		</include>
 	</source>
+    <coverage>
+		<report>
+			<html outputDirectory="build/coverage-report"/>
+            <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
+		</report>
+    </coverage>
 </phpunit>
