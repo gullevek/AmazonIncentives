@@ -2,54 +2,138 @@ name: CI
 run-name: ${{ github.actor}} runs CI
 
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - development
   pull_request:
     branches:
       - main
       - master
-      - staging
       - development
 
 jobs:
-  ci-tests:
+  # ci-tests:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - uses: php-actions/composer@v6
+  #       env:
+  #         COMPOSER_ROOT_VERSION: dev-master
+  #     - name: "Restore result cache"
+  #       uses: actions/cache/restore@v4
+  #       with:
+  #         path: ./tmp
+  #         key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
+  #         restore-keys: |
+  #           result-cache-v1-${{ matrix.php-version }}-
+  #     - name: PHPStan Static Analysis
+  #       uses: php-actions/phpstan@v3
+  #       with:
+  #         path: src/
+  #     - name: "Save result cache"
+  #       uses: actions/cache/save@v4
+  #       if: always()
+  #       with:
+  #         path: ./tmp
+  #         key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
+  #     # We need to use phpunit from the self install to get the class paths
+  #     # Skip auto tests here, there are too many problems with flooding of the AWS API from github
+  #     - name: PHPunit Tests Prepare
+  #       env:
+  #         AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
+  #         AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
+  #         AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
+  #         AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
+  #         AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
+  #       run: |
+  #         echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
+  #         echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
+  #         echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
+  #         echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
+  #         echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
+  #         echo "AWS_DEBUG=1" >> test/.env;
+  #     - name: PHPunit Tests
+  #       run: |
+  #         vendor/bin/phpunit
+
+  ci-php-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: php-actions/composer@v6
-        env:
-          COMPOSER_ROOT_VERSION: dev-master
-      - name: "Restore result cache"
-        uses: actions/cache/restore@v4
-        with:
-          path: ./tmp
-          key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
-          restore-keys: |
-            result-cache-v1-${{ matrix.php-version }}-
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          path: src/
-      - name: "Save result cache"
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: ./tmp
-          key: "result-cache-v1-${{ matrix.php-version }}-${{ github.run_id }}"
-      # We need to use phpunit from the self install to get the class paths
-      # Skip auto tests here, there are too many problems with flooding of the AWS API from github
-      - name: PHPunit Tests Prepare
-        env:
-          AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
-          AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
-          AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
-          AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
-          AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
-        run: |
-          echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
-          echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
-          echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
-          echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
-          echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
-          echo "AWS_DEBUG=1" >> test/.env;
-      - name: PHPunit Tests
-        run: |
-          vendor/bin/phpunit
+    - name: Checkout code
+      uses: actions/checkout@v6
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.5'
+        extensions: mbstring, intl, sqlite, pdo_sqlite
+        # ini-values: post_max_size=256M, max_execution_time=180
+        tools: composer, phan, phpstan, phpcs, phpunit, cs2pr
+        coverage: xdebug
+    - name: Setup problem matchers for PHP
+      run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+    - name: Setup problem matchers for PHPUnit
+      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    # - name: Cache dependencies
+    #   uses: actions/cache@v5
+    #   with:
+    #     path: ${{ steps.composer-cache.outputs.dir }}
+    #     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+    #     restore-keys: ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: |
+        composer install --prefer-dist
+        composer dump-autoload
+
+    - name: Run composer audit
+      run: composer audit --format=json --no-scripts --no-plugins --no-interaction > composer-audit-output.json
+
+    - name: Run phpcs
+      run: phpcs -q --report=checkstyle --standard=phpcs.xml --ignore=vendor/ ./src | cs2pr
+
+    - name: Run phan
+      if: ${{ vars.DISABLE_PHAN || 'not_set' != 'disable' }}
+      run: phan --analyze-twice --no-progress-bar --config-file=./.phan/config.php
+
+    # Must have "./tmp" directory set in configuration
+    # if we have "./tmp/phpstan" or anything different adjust the path below
+    # - name: "Restore result cache"
+    #   uses: actions/cache/restore@v5
+    #   with:
+    #     path: ./tmp
+    #     key: "result-cache-${{ github.run_id }}"
+    #     restore-keys: |
+    #       result-cache-v1-
+    - name: Run PHPStan
+      run: phpstan analyse --no-progress --configuration=phpstan.neon
+    # - name: "Save result cache"
+    #   uses: actions/cache/save@v5
+    #   if: always()
+    #   with:
+    #     path: ./tmp
+    #     key: "result-cache-${{ github.run_id }}"
+
+    - name: PHPunit Tests Prepare
+      env:
+        AWS_GIFT_CARD_ENDPOINT: "${{ secrets.AWS_GIFT_CARD_ENDPOINT }}"
+        AWS_GIFT_CARD_KEY: "${{ secrets.AWS_GIFT_CARD_KEY }}"
+        AWS_GIFT_CARD_SECRET: "${{ secrets.AWS_GIFT_CARD_SECRET }}"
+        AWS_GIFT_CARD_PARTNER_ID: "${{ secrets.AWS_GIFT_CARD_PARTNER_ID }}"
+        AWS_GIFT_CARD_CURRENCY: "${{ secrets.AWS_GIFT_CARD_CURRENCY }}"
+      run: |
+        echo "AWS_GIFT_CARD_ENDPOINT=${AWS_GIFT_CARD_ENDPOINT}" > test/.env;
+        echo "AWS_GIFT_CARD_KEY=${AWS_GIFT_CARD_KEY}" >> test/.env;
+        echo "AWS_GIFT_CARD_SECRET=${AWS_GIFT_CARD_SECRET}" >> test/.env;
+        echo "AWS_GIFT_CARD_PARTNER_ID=${AWS_GIFT_CARD_PARTNER_ID}" >> test/.env;
+        echo "AWS_GIFT_CARD_CURRENCY=${AWS_GIFT_CARD_CURRENCY}" >> test/.env;
+        echo "AWS_DEBUG=1" >> test/.env;
+    - name: Test with phpunit
+      run: phpunit --coverage-text

@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
-<phpunit colors="true" cacheDirectory=".phpunit.cache" bootstrap="vendor/autoload.php" >
+<phpunit
+    colors="true"
+    cacheDirectory=".phpunit.cache"
+    bootstrap="vendor/autoload.php"
+>
     <!-- Below removes final from classes for mock tests -->
     <extensions>
         <bootstrap class="DG\BypassFinals\PHPUnitExtension"/>
@@ -9,4 +13,9 @@
             <directory>test/phpUnit/</directory>
         </testsuite>
     </testsuites>
+    <source>
+		<include>
+			<directory>./src</directory>
+		</include>
+	</source>
 </phpunit>

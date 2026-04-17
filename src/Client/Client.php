@@ -70,7 +70,7 @@ class Client implements ClientInterface
 				) ? 'Rate exceeded' : $result_ar['message'];
 			} else {
 				// for all other error messages
-				$error_status = !is_array($result_ar['agcodResponse']) ?
+				$error_status = !is_array($result_ar['agcodResponse'] ?? null) ?
 					'FAILURE' : (
 						(
 						!isset($result_ar['agcodResponse']['status']) ||
