@@ -64,13 +64,35 @@ class Client implements ClientInterface
 				$error_status = 'RESEND';
 				$error_code = 'T001';
 				$error_type = 'RateExceeded';
-				$message = $result_ar['message'] ?? 'Rate exceeded';
+				$message = (
+					!isset($result_ar['message']) ||
+					!is_string($result_ar['message'])
+				) ? 'Rate exceeded' : $result_ar['message'];
 			} else {
 				// for all other error messages
-				$error_status = $result_ar['agcodResponse']['status'] ?? 'FAILURE';
-				$error_code = $result_ar['errorCode'] ?? 'E999';
-				$error_type = $result_ar['errorType'] ?? 'OtherUnknownError';
-				$message = $result_ar['message'] ?? 'Unknown error occured';
+				$error_status = !is_array($result_ar['agcodResponse']) ?
+					'FAILURE' : (
+						(
+						!isset($result_ar['agcodResponse']['status']) ||
+						!is_string($result_ar['agcodResponse']['status'])
+					) ?
+						'FAILURE' : $result_ar['agcodResponse']['status']
+					);
+				$error_code = (
+					!isset($result_ar['errorCode']) ||
+					!is_string($result_ar['errorCode'])
+				) ?
+					'E999' : $result_ar['errorCode'];
+				$error_type = (
+					!isset($result_ar['errorType']) ||
+					!is_string($result_ar['errorType'])
+				) ?
+					'OtherUnknownError' : $result_ar['errorType'];
+				$message = (
+					!isset($result_ar['message']) ||
+					!is_string($result_ar['message'])
+				) ?
+					'Unknown error occured' : $result_ar['message'];
 			}
 			// throw Error here with all codes
 			throw AmazonErrors::getError(
