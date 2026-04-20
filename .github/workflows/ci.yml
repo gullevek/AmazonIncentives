@@ -68,7 +68,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.5'
-        extensions: mbstring, intl, sqlite, pdo_sqlite
+        extensions: mbstring, intl
         # ini-values: post_max_size=256M, max_execution_time=180
         tools: composer, phan, phpstan, phpcs, phpunit, cs2pr
         coverage: xdebug
@@ -81,12 +81,12 @@ jobs:
       id: composer-cache
       run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-    # - name: Cache dependencies
-    #   uses: actions/cache@v5
-    #   with:
-    #     path: ${{ steps.composer-cache.outputs.dir }}
-    #     key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-    #     restore-keys: ${{ runner.os }}-composer-
+    - name: Cache dependencies
+      uses: actions/cache@v5
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+        restore-keys: ${{ runner.os }}-composer-
 
     - name: Install dependencies
       run: |
@@ -105,21 +105,21 @@ jobs:
 
     # Must have "./tmp" directory set in configuration
     # if we have "./tmp/phpstan" or anything different adjust the path below
-    # - name: "Restore result cache"
-    #   uses: actions/cache/restore@v5
-    #   with:
-    #     path: ./tmp
-    #     key: "result-cache-${{ github.run_id }}"
-    #     restore-keys: |
-    #       result-cache-v1-
+    - name: "Restore result cache"
+      uses: actions/cache/restore@v5
+      with:
+        path: ./tmp
+        key: "result-cache-${{ github.run_id }}"
+        restore-keys: |
+          result-cache-v1-
     - name: Run PHPStan
       run: phpstan analyse --no-progress --configuration=phpstan.neon
-    # - name: "Save result cache"
-    #   uses: actions/cache/save@v5
-    #   if: always()
-    #   with:
-    #     path: ./tmp
-    #     key: "result-cache-${{ github.run_id }}"
+    - name: "Save result cache"
+      uses: actions/cache/save@v5
+      if: always()
+      with:
+        path: ./tmp
+        key: "result-cache-${{ github.run_id }}"
 
     - name: PHPunit Tests Prepare
       env:

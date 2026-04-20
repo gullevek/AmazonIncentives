@@ -977,6 +977,24 @@ final class AmazonIncentivesTest extends TestCase
 		sleep($this->mock_wait);
 	}
 
+	#[Test]
+	#[TestDox('')]
+	public function testDecodeExceptionMessage(): void
+	{
+		$this->expectUserDeprecationMessage(
+			'Method decodeExceptionMessage(string $message) is deprecated, use '
+			. '\gullevek\AmazonIncentives\Exceptions\AmazonErrors::decodeExceptionMessage()'
+		);
+		$error = AmazonIncentives\Exceptions\AmazonErrors::getError(
+			error_status: 'ERROR',
+			error_code: '999',
+			error_type: 'TEST',
+			message: 'Test error',
+			_error_code: 1,
+		);
+		AmazonIncentives\AmazonIncentives::decodeExceptionMessage($error->getMessage());
+	}
+
 	/**
 	 * Undocumented function
 	 *

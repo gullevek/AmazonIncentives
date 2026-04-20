@@ -142,6 +142,11 @@ final class AmazonIncentives
 	 */
 	public static function decodeExceptionMessage(string $message): array
 	{
+		trigger_error(
+			'Method decodeExceptionMessage(string $message) is deprecated, use '
+			. '\gullevek\AmazonIncentives\Exceptions\AmazonErrors::decodeExceptionMessage()',
+			E_USER_DEPRECATED
+		);
 		return AmazonErrors::decodeExceptionMessage($message);
 	}
 
